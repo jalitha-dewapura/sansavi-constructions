@@ -1,0 +1,32 @@
+.sidebar ul li a {
+    color: white !important;
+}
+.nav-treeview li a:hover {
+    color: #4ca3cc !important;
+}
+
+.main-sidebar {
+    background-color: #00447a;
+}
+
+.card-body tr td {
+    padding: 2px 5px;
+}
+
+.three-btn {
+    padding: 2px 6px;
+    margin: 1px;
+    width: 30%;
+}
+
+.one-btn {
+    padding: 2px 6px;
+    margin: 1px;
+    width: 90%;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
