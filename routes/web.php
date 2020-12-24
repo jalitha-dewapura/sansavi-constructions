@@ -8,6 +8,7 @@ use App\Http\Controllers\ItemsController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\MaterialRequestNoteController;
 use App\Http\Controllers\ApproveNoteController;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,3 +54,10 @@ Route::post('/material_request_note/edit',[MaterialRequestNoteController::class,
 
 //Approve Note
 Route::get('/approve_notes',[ApproveNoteController::class, 'index'])->name('approve_note.index');
+
+
+//Login
+Route::get('/login',[LoginController::class, 'index'])->name('login.index');
+
+Route::post('/login',[LoginController::class, 'login'])->name('login.login');
+Route::get('/logout',[LoginController::class, 'logout'])->name('login.logout');

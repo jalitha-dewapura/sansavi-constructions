@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -20,7 +21,7 @@ class UserSeeder extends Seeder
             'user_role_id' => '1',
             'email' => 'user1@example.com',
             'phone' => '0711234567',
-            'password' => '1234'
+            'password' => Hash::make('1234')
         ]);
 
         User::create([
@@ -29,7 +30,7 @@ class UserSeeder extends Seeder
             'user_role_id' => '2',
             'email' => 'user2@example.com',
             'phone' => '0711234567',
-            'password' => '1234'
+            'password' => Hash::make('1234')
         ]);
 
         User::create([
@@ -38,7 +39,7 @@ class UserSeeder extends Seeder
             'user_role_id' => '3',
             'email' => 'user3@example.com',
             'phone' => '0711234567',
-            'password' => '1234'
+            'password' => Hash::make('1234')
         ]);
 
         User::create([
@@ -47,7 +48,7 @@ class UserSeeder extends Seeder
             'user_role_id' => '4',
             'email' => 'user4@example.com',
             'phone' => '0711234567',
-            'password' => '1234'
+            'password' => Hash::make('1234')
         ]);
 
         User::create([
@@ -56,7 +57,7 @@ class UserSeeder extends Seeder
             'user_role_id' => '5',
             'email' => 'user5@example.com',
             'phone' => '0711234567',
-            'password' => '1234'
+            'password' => Hash::make('1234')
         ]);
 
         User::create([
@@ -65,7 +66,7 @@ class UserSeeder extends Seeder
             'user_role_id' => '6',
             'email' => 'user6@example.com',
             'phone' => '0711234567',
-            'password' => '1234'
+            'password' => Hash::make('1234')
         ]);
 
         User::create([
@@ -74,7 +75,7 @@ class UserSeeder extends Seeder
             'user_role_id' => '1',
             'email' => 'user7@example.com',
             'phone' => '0711234567',
-            'password' => '1234'
+            'password' => Hash::make('1234')
         ]);
 
         User::create([
@@ -83,7 +84,7 @@ class UserSeeder extends Seeder
             'user_role_id' => '2',
             'email' => 'user8@example.com',
             'phone' => '0711234567',
-            'password' => '1234'
+            'password' => Hash::make('1234')
         ]);
     }
 }

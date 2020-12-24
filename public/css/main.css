@@ -9,6 +9,10 @@
     background-color: #00447a;
 }
 
+.login {
+    background-color: #00447a !important;
+}
+
 .card-body tr td {
     padding: 2px 5px;
 }
