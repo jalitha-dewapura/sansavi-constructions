@@ -19,7 +19,7 @@ class CreateMaterialRequestNotesTable extends Migration
             $table->unsignedBigInteger('site_id');
             $table->boolean('is_urgent');
             $table->boolean('is_complete')->default(false);
-            $table->string('is_approved')->default("pending");
+            $table->string('is_approved')->default("Pending");
             $table->date('delivery_date');
             $table->string('description')->nullable();
             $table->unsignedBigInteger('created_by_id')->nullable();

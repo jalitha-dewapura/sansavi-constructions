@@ -9,6 +9,7 @@ use App\Http\Controllers\SiteController;
 use App\Http\Controllers\MaterialRequestNoteController;
 use App\Http\Controllers\ApproveNoteController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RequestMaterialsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,8 +23,8 @@ use App\Http\Controllers\LoginController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+    return view('dashboard');
+})->name('dashboard');
 
 //Users
 Route::get('/users',[UserController::class, 'index'])->name('user.index');
@@ -50,7 +51,15 @@ Route::get('/material_request_note/create',[MaterialRequestNoteController::class
 Route::post('/material_request_note/create',[MaterialRequestNoteController::class, 'store'])->name('material_request_note.store');
 
 Route::get('/material_request_note/edit',[MaterialRequestNoteController::class, 'edit'])->name('material_request_note.edit');
-Route::post('/material_request_note/edit',[MaterialRequestNoteController::class, 'update'])->name('material_request_note.update');
+Route::post('/material_request_note/update',[MaterialRequestNoteController::class, 'update'])->name('material_request_note.update');
+
+Route::get('/material_request_note',[MaterialRequestNoteController::class, 'show'])->name('material_request_note.show');
+
+Route::get('/material_request_note/destroy/{id}',[MaterialRequestNoteController::class, 'destroy'])->name('material_request_note.destroy');
+
+//Request Materials
+Route::get('/request_materials/update',[RequestMaterialsController::class, 'update'])->name('request_materials.update');
+
 
 //Approve Note
 Route::get('/approve_notes',[ApproveNoteController::class, 'index'])->name('approve_note.index');

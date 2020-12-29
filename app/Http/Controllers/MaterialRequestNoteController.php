@@ -23,7 +23,7 @@ class MaterialRequestNoteController extends MY_Controller
     public function index()
     {
         $material_request_notes = MaterialRequestNote::with('materials')->get();
-        return view('material_request_notes', ['material_request_notes' => $material_request_notes]);
+        return view('material_request_notes_sk', ['material_request_notes' => $material_request_notes]);
     }
 
     /**
@@ -47,12 +47,12 @@ class MaterialRequestNoteController extends MY_Controller
     public function store(Request $request)
     {
         $rules = array(
-            'note_date'     => ['required'],
+            'note_date'     => ['required', 'date'],
             'site'          => ['required'],
             'is_urgent'     => ['required'],
-            'delivery_date' => ['required'],
+            'delivery_date' => ['required', 'date'],
             'item_id'       => ['required'],
-            'quantity'      => ['required'],
+            'quantity'      => ['required', 'numeric'],
             'cost'          => [],
             'description'   => []
         );
@@ -72,10 +72,11 @@ class MaterialRequestNoteController extends MY_Controller
                 $is_urgent = $request->input('is_urgent') == "yes" ? true : false;
                 //dd($is_urgent);
                 $note = array(
-                    'note_date' => $request->input('note_date'),
-                    'site_id'   => $request->input('site'),
-                    'is_urgent' => $is_urgent,
-                    'delivery_date' => $request->input('delivery_date') 
+                    'note_date'     => $request->input('note_date'),
+                    'site_id'       => $request->input('site'),
+                    'is_urgent'     => $is_urgent,
+                    'delivery_date' => $request->input('delivery_date'),
+                    'is_approved'   => "Pending"
                 );
                 
                 if (($request->has('note_id')) && ($request->filled('note_id'))) {
@@ -125,9 +126,25 @@ class MaterialRequestNoteController extends MY_Controller
      * @param  \App\Models\MaterialRequestNote  $materialRequestNote
      * @return \Illuminate\Http\Response
      */
-    public function show(MaterialRequestNote $materialRequestNote)
+    public function show(Request $request)
     {
-        //
+        $rules = array(
+            'note_id' => ['required']
+        );
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if($validator->fails()) {
+            return redirect()
+                ->back();
+        }
+        $note_id = $request->note_id;
+        $note = MaterialRequestNote::where('id', '=', $note_id)->with(['materials', 'approveNote', 'site'])->first();
+        $materials = RequestMaterials::with(['item'])->where('note_id', '=', $note_id)->get();
+        if($note == null){
+            return view('dashboard');
+        }
+        return view('material_request_note_show', ['note' => $note, 'materials' => $materials]);
     }
 
     /**
@@ -154,6 +171,10 @@ class MaterialRequestNoteController extends MY_Controller
 
         $note_id = $request->input('note_id');
         $note = MaterialRequestNote::where('id', '=', $note_id)->first();
+        if( $note->is_complete ){
+            return redirect()
+                ->back();
+        }
         $materials = RequestMaterials::with(['item'])->where('note_id', '=', $note_id)->get();
         $sites = Site::where('is_active', '=', '1')->get();//->where('is_complete', '=', '0')
         $items = Items::with(['measuringUnit'])->get();
@@ -198,8 +219,12 @@ class MaterialRequestNoteController extends MY_Controller
      * @param  \App\Models\MaterialRequestNote  $materialRequestNote
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MaterialRequestNote $materialRequestNote)
+    public function destroy($id)
     {
-        //
+        $materialRequestNote = MaterialRequestNote::find($id);
+        $materialRequestNote->delete();
+        return redirect()
+            ->back()
+            ->with('success', 'Material request is deleted successfully!');
     }
 }

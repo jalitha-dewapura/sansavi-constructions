@@ -40,26 +40,24 @@
                         <tbody id="site_list">
                             @isset($material_request_notes)
                                 @foreach($material_request_notes as $note)
-                                    @isset($note->approveNote)
-                                        <tr>
-                                            <td>{{ $note->id }}</td>
-                                            <td>{{ $note->site->name }}</td>
-                                            <td>{{ $note->note_date }}</td>
-                                            <td>{{ $note->is_urgent == true ? "Urgent" : "Non-urgent" }}</td>
-                                            <td>{{ $note->delivery_date }}</td>
-                                            @php
-                                                $total_cost = 0;
-                                                foreach ($note->materials as $material) {
-                                                    $total_cost += $material->cost;
-                                                }
-                                            @endphp
-                                            <td class="text-right">{{ number_format((float)$total_cost, 2, '.', ',') }}</td>
-                                            <td>{{ $note->approveNote->is_approved == 1 ? 'Approved' : 'Decline'}}</td>
-                                            <td class="d-flex justify-content-around">
-                                                <button class="btn btn-outline-info btn-sm one-btn" id="view" onclick="view_user_details( {{ $note->id }} )"><b>View</b></button> 
-                                            </td>
-                                        </tr>
-                                    @endisset
+                                    <tr>
+                                        <td>{{ $note->id }}</td>
+                                        <td>{{ $note->site->name }}</td>
+                                        <td>{{ $note->note_date }}</td>
+                                        <td>{{ $note->is_urgent == true ? "Urgent" : "Non-urgent" }}</td>
+                                        <td>{{ $note->delivery_date }}</td>
+                                        @php
+                                            $total_cost = 0;
+                                            foreach ($note->materials as $material) {
+                                                $total_cost += $material->cost;
+                                            }
+                                        @endphp
+                                        <td class="text-right">{{ number_format((float)$total_cost, 2, '.', ',') }}</td>
+                                        <td>{{ $note->is_approved }}</td>
+                                        <td class="d-flex justify-content-around">
+                                            <button class="btn btn-outline-info btn-sm one-btn" id="view" onclick="view_user_details( {{ $note->id }} )"><b>View</b></button> 
+                                        </td>
+                                    </tr>
                                 @endforeach
                             @endisset
                         </tbody>

@@ -98,8 +98,8 @@
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">                                
-                                <p>&nbsp; Approved Requests</p>
+                            <a href="{{ route('material_request_note.index') }}" class="nav-link">                                
+                                <p>&nbsp; All Material Requests</p>
                             </a>
                         </li>
                     </ul>         

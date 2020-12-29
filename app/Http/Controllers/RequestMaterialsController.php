@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\RequestMaterials;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use DB;
+use \Exception;
 
 class RequestMaterialsController extends Controller
 {
@@ -67,9 +70,46 @@ class RequestMaterialsController extends Controller
      * @param  \App\Models\RequestMaterials  $requestMaterials
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, RequestMaterials $requestMaterials)
+    public function update(Request $request)
     {
-        //
+        $rules = array(
+            'quantity'      => ['required', 'numeric'],
+            'description'   => []
+        );
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if($validator->fails()){
+            return redirect()
+                    ->back()
+                    ->with('error', 'Item is not updated!');
+        }else{
+            TRY{
+                DB::beginTransaction();
+
+                $material = array(
+                    'quantity'    => $request->input('quantity'),
+                    'description' => $request->input('description')
+                );
+
+                $requestMaterials = RequestMaterials::find( $request->input('material_id') );
+                $requestMaterials->update($material);
+                unset($material);
+
+                DB::commit();
+
+        }catch(Exception $e){
+            DB::rollback();
+            return redirect()
+                ->back()
+                ->with('error','Exception');
+                
+        }
+        return redirect()
+            ->back()
+            ->with('success','Material is updated successfully.!');
+        }
+
     }
 
     /**

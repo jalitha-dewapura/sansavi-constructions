@@ -15,7 +15,7 @@ class ApproveNoteController extends Controller
      */
     public function index()
     {
-        $material_request_notes = MaterialRequestNote::where('is_complete','=','1')->where('is_approved', '!=', 'pending')->with(['approveNote', 'site', 'materials'])->get();
+        $material_request_notes = MaterialRequestNote::where('is_complete','=','1')->with(['approveNote', 'site', 'materials'])->get();
         return view('approve_notes_other', ['material_request_notes' => $material_request_notes]);
     }
 

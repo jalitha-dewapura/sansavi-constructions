@@ -113,12 +113,14 @@
                                 </div>
                             </div>      
                         </div>
+                        <!-- cost  -->
                         <div class="form-group row">
                             <label class="col col-auto col-sm-3 col-form-label">Estimated Cost</label>
                             <div class="col col-auto col-sm-8">
                                 <input type="text" class="form-control-plaintext w-100" name="cost" id="cost" placeholder="Rupees" readonly="readonly">
                             </div>      
                         </div>
+                        <!-- description  -->
                         <div class="form-group row">
                             <label class="col col-auto col-sm-3 col-form-label">Description</label>
                             <div class="col col-auto col-sm-8">
@@ -177,9 +179,9 @@
                                 <td class="text-right">{{ number_format((float)$material->cost, 2, '.', ',') }}</td> 
                                 <td>{{$material->description}}</td>
                                 <td class="d-flex justify-content-around">
-                                    <button class="btn btn-outline-info btn-sm" id="view" onclick="view_user_details( {{ $material->id }} )"><b>View</b></button> 
-                                    <button class="btn btn-outline-warning btn-sm" id="edit"  onclick="edit_user_details( {{ $material->id }} )" {{ $is_disabled ?? '' }}><b>Edit</b></button>
-                                    <button class="btn btn-outline-danger btn-sm" id="delete" onclick="delete_user_details( {{ $material->id }} )" {{ $is_disabled ?? '' }}><b>Delete</b></button>
+                                    <button class="btn btn-outline-info btn-sm three-btn btn-view" data-id="{{ $material->id }}" data-object="{{ $material->toJson() }}" data-toggle="modal" data-target="#view_modal"><b>View</b></button> 
+                                    <button class="btn btn-outline-warning btn-sm three-btn btn-edit" data-id="{{ $material->id }}" data-object="{{ $material->toJson() }}" data-toggle="modal" data-target="#edit_modal"}><b>Edit</b></button>
+                                    <button class="btn btn-outline-danger btn-sm three-btn" id="delete" onclick="delete_user_details( {{ $material->id }} )" {{ $is_disabled ?? '' }}><b>Delete</b></button>
                                 </td>
                             </tr>   
                         @endforeach
@@ -201,7 +203,7 @@
                             <button type="submit" class="btn btn-sm btn-outline-info col-12" name="complete"><b>Complete</b></button>
                         </div>
                         <div class="col-lg-1 col-md-1 col-sm-2">
-                            <a type="button" class="btn btn-sm btn-outline-secondary col-12" name="close" href="{{ route('welcome') }}"><b>Close</b></a>
+                            <a type="button" class="btn btn-sm btn-outline-secondary col-12" name="close" href="{{ route('dashboard') }}"><b>Close</b></a>
                         </div>
                     </div>
                 </div>
@@ -215,6 +217,153 @@
 <!-- /.content -->
 <!-- -- /div -- -->
 <!-- /.Content Wrapper -->
+
+<!-- View Modal -->
+<div id="view_modal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <!-- <div class="modal-header">
+                <h5 class="modal-title text-info font-weight-bold">Material Details</h5>
+            </div> -->
+            <div class="modal-body">
+                <div class="col">
+                    <!-- card  -->
+                    <div class="card card-info mt-3">
+                        <!-- card-header -->
+                        <div class="card-header">
+                            <h3 class="card-title w-100"> View Material Details <h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- card-body -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-5">
+                                    <label  class="font-weight-normal">Material Name</label>
+                                </div>
+                                <div class="col-7">
+                                    <label  class="font-weight-normal" id="item_view"></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    <label  class="font-weight-normal">Quantity</label>
+                                </div>
+                                <div class="col-7">
+                                    <label  class="font-weight-normal" id="quantity_view"></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    <label  class="font-weight-normal">Unit Price</label>
+                                </div>
+                                <div class="col-7">
+                                    <label  class="font-weight-normal" id="unit_price_view"></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    <label class="font-weight-normal">Total Cost</label>
+                                </div>
+                                <div class="col-7">
+                                    <label class="font-weight-normal" id="total_cost_view"></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    <label class="font-weight-normal">Description</label>
+                                </div>
+                                <div class="col-7">
+                                    <label class="font-weight-normal" id="description_view"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-outline-info" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- /.Wiew Modal -->
+<!-- Edit Modal  -->
+<div class="modal fade" role="dialog" id="edit_modal">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form action="{{ route('request_materials.update') }}" class="form-horizontal">
+                @csrf
+                <div class="modal-body">
+                    <div class="col">
+                        <div class="card card-info mt-3">
+                            <div class="card-header">
+                                <h3 class="card-title w-100">Change Material Details</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <div class="col-12">
+                                        <!-- material select  -->
+                                        <div class="form-group row">
+                                            <div class="col-5">
+                                                <label  class="font-weight-normal">Material</label>
+                                            </div>
+                                            <div class="col-7"> 
+                                                <label id="item_edit" class="font-weight-normal"></label>
+                                            </div>
+                                        </div>
+                                        <!-- /.material select  -->
+                                        <!-- quantity  -->
+                                        <div class="form-group row">
+                                            <div class="col-5">
+                                                <label  class="font-weight-normal">Quantity</label>
+                                            </div>
+                                            <div class="col-7"> 
+                                                <div class="input-group">
+                                                    <input type="number" name="quantity" id="quantity_edit" required="required" placeholder="Quantity" class="form-control form-control-sm" min="1"/>
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text" name="measuring_unit" id="measuring_unit_edit" style="height: 31px;"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.quantity  -->
+                                        <!-- description  -->
+                                        <div class="form-group row">
+                                            <div class="col-5">
+                                                <label  class="font-weight-normal">Description</label>
+                                            </div>
+                                            <div class="col-7"> 
+                                                <textarea type="text" class="form-control form-control-sm w-100" rows="4" name="description" id="description_edit" placeholder="Description"></textarea>
+                                            </div>
+                                        </div>
+                                        <!-- /.description -->
+                                        <!-- description  -->
+                                        <div class="form-group row">
+                                            <input type="hidden" id="material_id" name="material_id" value="">
+                                        </div>
+                                        <!-- /.description -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- card-body  -->
+                        </div>
+                        <!-- card  -->
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="submit" class="btn btn-outline-info">Update</button>
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /.Edit Modal  -->
+
 @endsection
 
 @push('stack_script')
@@ -261,7 +410,6 @@ $(function(){
 <script>
 $(function(){
     //"use strict";
-    
     $('#item_id').on("select2:select", function(event){
         var data = event.params.data;
         var elementObject = $( data.element );
@@ -299,6 +447,67 @@ $(function(){
     $('#item_id').on("select2:unselect", function(event){
         var quantity_measuring_unit_id = $("#quantity_measuring_unit_id");
         quantity_measuring_unit_id.text( null );
+    });
+
+    $(".btn-view").on('click', function(event){
+        event.preventDefault();
+        var buttonObject = $( this );
+        buttonObject.attr("disabled", true);
+        var objectJson = buttonObject.data('object');
+        //console.log(objectJson);
+        var modalObject = $("#view_modal");
+        
+        var item = $("#item_view");
+        var quantity = $("#quantity_view");
+        var unit_price = $("#unit_price_view");
+        var total_cost = $("#total_cost_view");
+        var description = $("#description_view");
+
+        var item_value = objectJson.item.name;
+        var quantity_value = objectJson.quantity + " " + objectJson.item.measuring_unit.name;
+        var unit_price_value = "Rs " + (objectJson.item.price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+        var total_cost_value = "Rs " + (objectJson.cost).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+        var description_value = objectJson.description;
+        
+        item.text( item_value );
+        quantity.text( quantity_value );
+        unit_price.text( unit_price_value );
+        total_cost.text( total_cost_value );
+        description.text( description_value );
+
+        modalObject.modal().show();
+        buttonObject.attr("disabled", false);
+        
+    });
+
+    $(".btn-edit").on('click', function(event) {
+        event.preventDefault();
+        var buttonObject = $( this );
+        buttonObject.attr('disabled', true);
+        var objectJson = buttonObject.data('object');
+        var modalObject = $("#edit_modal");
+
+        var item = $("#item_edit");
+        var quantity = $("#quantity_edit");
+        var measuring_unit = $("#measuring_unit_edit");
+        var description = $("#description_edit");
+        var material = $("#material_id");
+        
+        var item_value = objectJson.item.name;
+        var quantity_value = objectJson.quantity;
+        var measuring_unit_value = objectJson.item.measuring_unit.name;
+        var description_value = objectJson.description;
+        var material_value = objectJson.id;
+        
+        item.text( item_value );
+        quantity.val( quantity_value );
+        measuring_unit.text(measuring_unit_value);
+        description.val( description_value );
+        material.val( material_value );
+
+        modalObject.modal().show();
+        buttonObject.attr("disabled", false);
+
     });
     
 });
