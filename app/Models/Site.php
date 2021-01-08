@@ -11,7 +11,7 @@ class Site extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['name', 'province_id', 'district_id', 'started_date', 'pm_id', 'qa_id', 'sk_id', 'po_id', 'description'];
+    protected $fillable = ['name', 'province_id', 'district_id', 'started_date', 'pm_id', 'qs_id', 'sk_id', 'po_id', 'description'];
 
     public function province()
     {

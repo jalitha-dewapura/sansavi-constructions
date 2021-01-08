@@ -98,7 +98,7 @@ class SiteController extends Controller
                     'started_date'=> $request->input('started_date'),
                     'po_id'       => $request->input('po_id'),
                     'pm_id'       => $request->input('pm_id'),
-                    'qa_id'       => $request->input('qa_id'),
+                    'qs_id'       => $request->input('qs_id'),
                     'sk_id'       => $request->input('sk_id'),
                 );
                 $sitObject = Site::create($site);
@@ -149,7 +149,54 @@ class SiteController extends Controller
      */
     public function update(Request $request, Site $site)
     {
-        //
+        $rule = array(
+            'name_edit'          => 'required',
+            'province_edit'      => 'required',
+            'district_edit'      => 'required',
+            'started_date_edit'  => 'required|date'
+        );
+
+        $validator = Validator::make($request->all(), $rule);
+        
+        if($validator->fails()){
+            return redirect()
+                ->back()
+                ->withInputs()
+                ->with('error', 'Please check the required input fields')
+                ->withErrors();
+        }else{
+            try{
+                DB::BeginTransaction();
+                
+                $site = array(
+                    'name'        => $request->input('name_edit'),
+                    'province_id' => $request->input('province_edit'),
+                    'district_id' => $request->input('district_edit'),
+                    'started_date'=> $request->input('started_date_edit'),
+                    'po_id'       => $request->input('po_edit'),
+                    'pm_id'       => $request->input('pm_edit'),
+                    'qs_id'       => $request->input('qs_edit'),
+                    'sk_id'       => $request->input('sk_edit'),
+                );
+
+                $site_id = $request->input('site_id');
+                $siteObject = Site::find($site_id);
+                $siteObject->update($site);
+                unset($site);
+                DB::commit();
+
+            }catch(Exception $e){
+                DB::rollback();
+                return redirect()
+                    ->back()
+                    ->with('error', 'Exception')
+                    ->withInputs()
+                    ->withErrors();
+            }
+            return redirect()
+                    ->back()
+                    ->with('success', 'The site was updated successfully!');
+        }
     }
 
     /**
@@ -158,8 +205,19 @@ class SiteController extends Controller
      * @param  \App\Models\Site  $site
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Site $site)
+    public function destroy($id)
     {
-        //
+        $siteObject = Site::find($id);
+        $siteObject->delete();
+        return redirect()
+            ->back()
+            ->with('success', 'The site was deleted successfully!');
+    }
+
+    public function district(Request $request){
+        $province_id = $request->input('province_id');
+        $districts = District::where('province_id', '=', $province_id)->get();
+
+        return response()->json( $districts );
     }
 }

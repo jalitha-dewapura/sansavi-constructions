@@ -104,7 +104,7 @@
                 <h5 class="modal-title text-danger font-weight-bold">Deleting the material requests note...! </h5>
             </div>
             <div class="modal-body">
-                <p class="modal_body">If you continue you will delete this material request. Are you sure to delete this material request? </p>
+                <p>If you continue you will delete this material request. Are you sure to delete this material request? </p>
                 <div class="row">
                     <div class="col-12 d-flex justify-content-center">
                         <div class="col-md-5 mt-3">

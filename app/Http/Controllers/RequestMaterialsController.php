@@ -86,14 +86,17 @@ class RequestMaterialsController extends Controller
         }else{
             TRY{
                 DB::beginTransaction();
-
+                $requestMaterial = RequestMaterials::find( $request->input('material_id') )->with(['item'])->first();
+                $unit_price = $requestMaterial->item->price;
+                $total_cost = $unit_price * $request->input('quantity');
                 $material = array(
                     'quantity'    => $request->input('quantity'),
+                    'cost' => $total_cost,
                     'description' => $request->input('description')
                 );
 
-                $requestMaterials = RequestMaterials::find( $request->input('material_id') );
-                $requestMaterials->update($material);
+                
+                $requestMaterial->update($material);
                 unset($material);
 
                 DB::commit();
@@ -118,8 +121,14 @@ class RequestMaterialsController extends Controller
      * @param  \App\Models\RequestMaterials  $requestMaterials
      * @return \Illuminate\Http\Response
      */
-    public function destroy(RequestMaterials $requestMaterials)
+    public function destroy($id)
     {
-        //
+        $material = RequestMaterials::find($id);
+        $material->delete();
+        return redirect()
+            ->back();
+
+
+        
     }
 }

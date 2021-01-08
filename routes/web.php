@@ -44,6 +44,12 @@ Route::get('/sites',[SiteController::class, 'index'])->name('site.index');
 Route::get('/site/create',[SiteController::class, 'create'])->name('site.create');
 Route::post('/site/create',[SiteController::class, 'store'])->name('site.store');
 
+Route::post('/site/update',[SiteController::class, 'update'])->name('site.update');
+
+Route::get('/site/distroy/{id}',[SiteController::class, 'destroy'])->name('site.destroy');
+
+Route::get('/districts',[SiteController::class, 'district'])->name('site.district');
+
 //Material Reuest Note
 Route::get('/material_request_notes',[MaterialRequestNoteController::class, 'index'])->name('material_request_note.index');
 
@@ -59,10 +65,11 @@ Route::get('/material_request_note/destroy/{id}',[MaterialRequestNoteController:
 
 //Request Materials
 Route::get('/request_materials/update',[RequestMaterialsController::class, 'update'])->name('request_materials.update');
-
+Route::get('/request_materials/destroy/{id}',[RequestMaterialsController::class, 'destroy'])->name('request_materials.destroy');
 
 //Approve Note
 Route::get('/approve_notes',[ApproveNoteController::class, 'index'])->name('approve_note.index');
+
 
 
 //Login

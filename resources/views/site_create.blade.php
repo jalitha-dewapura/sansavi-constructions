@@ -205,6 +205,24 @@ $(function () {
           format: 'YYYY-MM-DD'
         },
     }).val('');
+
+    $('#province').change(function(){
+        var province_id =  $(this).val();
+        var district_form = $('#district');
+        $.get('http://localhost:8000/districts?province_id='+province_id, function( data ){
+            district_form.empty();
+            var option = $("<option>");
+            option.attr("value", "");
+            option.text( "---SELECT---" );
+            district_form.append( option );
+            $.each(data, function(key, value){
+                option = $("<option>");
+                option.attr("value", value.id);
+                option.text( value.name );
+                district_form.append( option );
+            });
+        })
+    });
 })
 </script>
 

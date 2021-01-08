@@ -196,21 +196,25 @@ class MaterialRequestNoteController extends MY_Controller
     public function update(Request $request, MaterialRequestNote $materialRequestNote)
     {
         if (($request->has('note_id')) && ($request->filled('note_id'))) {
-            $note = array(
-                'is_complete' => true
-            );
-            $materialRequestNoteObject = MaterialRequestNote::find( $request->input('note_id') );
-            $materialRequestNoteObject->update( $note );
-            unset($note);
+           
+            $materialRequestNoteObject = MaterialRequestNote::find( $request->input('note_id') )->with(['materials'])->first();
+            if($materialRequestNoteObject->materials->isNotEmpty()){
+                $note = array(
+                    'is_complete' => true
+                );
+                $materialRequestNoteObject->update( $note );
+                unset($note);
 
-            return redirect()
-                    ->route('material_request_note.index')
-                    ->with('success','SRN is successfully completed!');
-        }else{
-            return redirect()
-                    ->route('material_request_note.edit', ['note_id' => $materialRequestNoteObject->id])
-                    ->with('error','SRN is not completed!');
+                return redirect()
+                ->route('material_request_note.index')
+                ->with('success','SRN is successfully completed!');
+            }
         }
+
+        return redirect()
+            ->route('material_request_note.edit', ['note_id' => $materialRequestNoteObject->id])
+            ->with('error','SRN is not completed!');
+        
     }
 
     /**

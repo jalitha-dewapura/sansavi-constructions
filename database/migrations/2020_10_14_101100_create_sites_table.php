@@ -21,7 +21,7 @@ class CreateSitesTable extends Migration
             $table->unsignedBigInteger('district_id');
             $table->date('started_date');
             $table->unsignedBigInteger('pm_id')->nullable();
-            $table->unsignedBigInteger('qa_id')->nullable();
+            $table->unsignedBigInteger('qs_id')->nullable();
             $table->unsignedBigInteger('sk_id')->nullable();
             $table->unsignedBigInteger('po_id')->nullable();
             $table->boolean('is_active')->default(true);

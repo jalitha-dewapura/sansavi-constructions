@@ -181,7 +181,7 @@
                                 <td class="d-flex justify-content-around">
                                     <button class="btn btn-outline-info btn-sm three-btn btn-view" data-id="{{ $material->id }}" data-object="{{ $material->toJson() }}" data-toggle="modal" data-target="#view_modal"><b>View</b></button> 
                                     <button class="btn btn-outline-warning btn-sm three-btn btn-edit" data-id="{{ $material->id }}" data-object="{{ $material->toJson() }}" data-toggle="modal" data-target="#edit_modal"}><b>Edit</b></button>
-                                    <button class="btn btn-outline-danger btn-sm three-btn" id="delete" onclick="delete_user_details( {{ $material->id }} )" {{ $is_disabled ?? '' }}><b>Delete</b></button>
+                                    <button class="btn btn-outline-danger btn-sm three-btn btn-delete" data-url="{{ route('request_materials.destroy', [$material->id]) }}"  data-toggle="modal" data-target="#delete_modal"><b>Delete</b></button>
                                 </td>
                             </tr>   
                         @endforeach
@@ -295,7 +295,7 @@
 <div class="modal fade" role="dialog" id="edit_modal">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-            <form action="{{ route('request_materials.update') }}" class="form-horizontal">
+            <form action="{{ route('request_materials.update') }}" class="form-horizontal" method="post">
                 @csrf
                 <div class="modal-body">
                     <div class="col">
@@ -341,11 +341,11 @@
                                             </div>
                                         </div>
                                         <!-- /.description -->
-                                        <!-- description  -->
+                                        <!-- material id  -->
                                         <div class="form-group row">
                                             <input type="hidden" id="material_id" name="material_id" value="">
                                         </div>
-                                        <!-- /.description -->
+                                        <!-- /.material id -->
                                     </div>
                                 </div>
                             </div>
@@ -363,6 +363,32 @@
     </div>
 </div>
 <!-- /.Edit Modal  -->
+
+<!-- Delete Modal  -->
+<div id="delete_modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger font-weight-bold">Deleting the material...! </h5>
+            </div>
+            <div class="modal-body">
+                <p>If you continue, you will delete this material from the material request note. Are you sure to delete this material?</p>
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-center">
+                        <div class="col-md-5 mt-3">
+                            <button class="btn btn-danger rounded two-btn" id="delete_button">Delete</button>
+                            <button type="button" class="btn btn-warning rounded two-btn" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- /.Delete Modal  -->
+
 
 @endsection
 
@@ -510,6 +536,14 @@ $(function(){
 
     });
     
+    $(".btn-delete").on('click', function(event){
+        var buttonObject = $( this );
+        var url = buttonObject.data('url');
+        $("#delete_modal").modal().show();
+        $("#delete_button").on('click', function(){
+            window.location.replace( url );
+        });             
+    });
 });
 </script>
 @endpush
