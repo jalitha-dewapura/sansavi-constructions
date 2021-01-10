@@ -239,11 +239,11 @@
                                                 <div class="form-group">
                                                     <label class="col-4">
                                                         <input type="radio" id="consumable_edit" name="item_type_edit" value="consumable" class="minimal">
-                                                        Consumable
+                                                        <label class="font-weight-normal">Consumable</label>
                                                     </label>
                                                     <label class="col-4">
                                                         <input type="radio" id="asset_edit" name="item_type_edit" value="asset" class="minimal">
-                                                        Asset
+                                                        <label class="font-weight-normal">Asset</label>
                                                     </label>
                                                 </div>
                                             </div>

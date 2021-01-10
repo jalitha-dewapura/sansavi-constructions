@@ -168,6 +168,14 @@
                                     <label  class="font-weight-normal" id="sk_view"></label>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    <label  class="font-weight-normal">Active Status</label>
+                                </div>
+                                <div class="col-7">
+                                    <label  class="font-weight-normal" id="status_view"></label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -305,6 +313,24 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        <!-- Active Status -->
+                                        <div class="form-group row"> 
+                                            <div class="col-5">
+                                                <label  class="font-weight-normal">Active Status</label>
+                                            </div>
+                                            <div class="col-7">
+                                                <div class="form-group">
+                                                    <label class="col-5">
+                                                        <input type="radio" id="active_edit" name="status_edit" value="active" class="minimal">
+                                                        <label class="font-weight-normal">Active</label>
+                                                    </label>
+                                                    <label class="col-6">
+                                                        <input type="radio" id="suspended_edit" name="status_edit" value="suspended" class="minimal">
+                                                        <label class="font-weight-normal">Suspended</label>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <!-- material id  -->
                                         <div class="form-group row">
                                             <input type="hidden" id="site_id" name="site_id" value="">
@@ -390,6 +416,7 @@
             var pm_value = jsonObject.project_manager? jsonObject.project_manager.name : '';
             var qs_value = jsonObject.quantity_surveyor? jsonObject.quantity_surveyor.name : '';
             var sk_value = jsonObject.stock_keeper? jsonObject.stock_keeper.name : '';
+            var status_value = jsonObject.is_active? "Active" : "Completed or Suspended";
             
             var name = $("#name_view");
             var province = $("#province_view");
@@ -399,6 +426,7 @@
             var pm = $("#pm_view");
             var qs = $("#qs_view");
             var sk = $("#sk_view");
+            var status = $("#status_view");
 
             name.text(name_value);
             province.text( province_value );
@@ -408,6 +436,7 @@
             pm.text( pm_value );
             qs.text( qs_value );
             sk.text( sk_value );
+            status.text(status_value);
 
             modalObject.modal().show();
             buttonObject.attr("disabled", false);
@@ -428,6 +457,7 @@
             var pm_value = jsonObject.project_manager? jsonObject.project_manager.id : '';
             var qs_value = jsonObject.quantity_surveyor? jsonObject.quantity_surveyor.id : '';
             var sk_value = jsonObject.stock_keeper? jsonObject.stock_keeper.id : '';
+            var status_value = jsonObject.is_active;
             var site_id_value = jsonObject.id;
 
             var name = $("#name_edit");
@@ -438,6 +468,8 @@
             var pm = $("#pm_edit option");
             var qs = $("#qs_edit option");
             var sk = $("#sk_edit option");
+            var active = $('#active_edit');
+            var suspended = $('#suspended_edit');
             var site_id = $("#site_id");
             
             name.val(name_value);
@@ -498,6 +530,16 @@
                     $(v).attr('selected', false);
                 }
             }); 
+
+            
+            if(status_value){
+                suspended.attr('checked', false);
+                active.attr('checked', true);
+            }else{
+                active.attr('checked', false);
+                suspended.attr('checked', true);
+            }
+
             modalObject.modal().show();
             buttonObject.attr('disabled', false);
             

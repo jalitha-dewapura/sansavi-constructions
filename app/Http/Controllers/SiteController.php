@@ -151,9 +151,10 @@ class SiteController extends Controller
     {
         $rule = array(
             'name_edit'          => 'required',
-            'province_edit'      => 'required',
-            'district_edit'      => 'required',
-            'started_date_edit'  => 'required|date'
+            'province_edit'      => 'required|numeric',
+            'district_edit'      => 'required|numeric',
+            'started_date_edit'  => 'required|date',
+            'status_edit'        => 'required'
         );
 
         $validator = Validator::make($request->all(), $rule);
@@ -167,6 +168,12 @@ class SiteController extends Controller
         }else{
             try{
                 DB::BeginTransaction();
+
+                if( $request->input('status_edit') == 'active'){
+                    $is_active = true;
+                }else{
+                    $is_active = false;
+                }
                 
                 $site = array(
                     'name'        => $request->input('name_edit'),
@@ -177,8 +184,9 @@ class SiteController extends Controller
                     'pm_id'       => $request->input('pm_edit'),
                     'qs_id'       => $request->input('qs_edit'),
                     'sk_id'       => $request->input('sk_edit'),
+                    'is_active'   => $is_active
                 );
-
+                //dd($site);
                 $site_id = $request->input('site_id');
                 $siteObject = Site::find($site_id);
                 $siteObject->update($site);
