@@ -38,6 +38,10 @@ Route::get('/items',[ItemsController::class, 'index'])->name('items.index');
 Route::get('/item/create',[ItemsController::class, 'create'])->name('items.create');
 Route::post('/item/create',[ItemsController::class, 'store'])->name('items.store');
 
+Route::get('/item/update',[ItemsController::class, 'update'])->name('item.update');
+
+Route::get('/item/destroy/{id}',[ItemsController::class, 'destroy'])->name('item.destroy');
+
 //Site
 Route::get('/sites',[SiteController::class, 'index'])->name('site.index');
 

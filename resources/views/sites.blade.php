@@ -174,7 +174,7 @@
             </div>
             <!-- modal body  -->
             <div class="modal-footer d-flex justify-content-center">
-                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -318,9 +318,11 @@
                     </div>     
                 </div>
                 <!-- modal body  -->
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-outline-info">Update</button>
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                <div class="modal-footer d-flex justify-content-center">
+                    <div class="col-3">
+                        <button type="submit" class="btn btn-info two-btn">Update</button>
+                        <button type="button" class="btn btn-secondary two-btn" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </form>
         </div>

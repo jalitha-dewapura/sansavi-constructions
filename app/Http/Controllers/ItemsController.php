@@ -20,7 +20,8 @@ class ItemsController extends Controller
     public function index()
     {
         $items = Items::with(['measuringUnit'])->get();
-        return view('items', ['items'=> $items]);
+        $measuring_units = MeasuringUnits::where('is_visible', '=', true)->get();
+        return view('items', ['items'=> $items, 'measuring_units' => $measuring_units]);
     }
 
     /**
@@ -127,9 +128,59 @@ class ItemsController extends Controller
      * @param  \App\Models\Items  $items
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Items $items)
-    {
-        //
+    public function update(Request $request)
+    {   
+        $rule = array(
+            'name_edit'              => 'required',
+            'measuring_unit_edit'    => 'required',
+            'price_edit'             => 'required',
+            'item_type_edit'         => 'required'
+        );
+
+        $validator = Validator::make($request->all(), $rule);
+        
+        if($validator->fails()){
+            return redirect()
+                    ->back()
+                    ->with('error', 'Please check the required input fields')
+                    ->withInputs()
+                    ->withErrors();
+        }else{
+            try {
+                DB::beginTransaction();
+
+                if( $request->input('item_type_edit') == 'consumable'){
+                    $is_consumable = true;
+                }else{
+                    $is_consumable = false;
+                }
+
+                $item = array(
+                    'name'              => $request->input('name_edit'),
+                    'measuring_unit_id' => $request->input('measuring_unit_edit'),
+                    'price'             => $request->input('price_edit'),
+                    'is_consumable'     => $is_consumable,
+                    'description'       => $request->input('description_edit')
+                );
+
+                $item_id = $request->input('item_id');
+                $itemObject = Items::find(  $item_id );
+                $itemObject->update($item);
+                unset( $item );
+                
+                DB::commit();
+
+            }catch(Exception $e){
+                DB::rollback(); 
+                return redirect()
+                    ->back()
+                    ->withInput()
+                    ->with('error','Exception');
+            }
+            return redirect()
+                    ->back()
+                    ->with('success','The item was updated successfully!');
+        }
     }
 
     /**
@@ -138,8 +189,13 @@ class ItemsController extends Controller
      * @param  \App\Models\Items  $items
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Items $items)
+    public function destroy($id)
     {
-        //
+        $itemObject = Items::find($id);
+        $itemObject->delete();
+        return redirect()
+            ->back()
+            ->with('success','The item was deleted successfully!');
+
     }
 }

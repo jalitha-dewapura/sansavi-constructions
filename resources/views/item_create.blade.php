@@ -92,7 +92,7 @@
                     <textarea type="text" class="w-100 form-control form-control-sm" name="description" id="description" placeholder="Name, Brand, Volume" rows="3">{{ old('description') }}</textarea>
                 </div>
             </div>
-            <!-- Description -->
+            <!-- Item Type -->
             <div class="form-group row d-flex justify-content-center"> 
                 <label class="col-md-3 col-form-label">
                     Select type
