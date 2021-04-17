@@ -42,7 +42,7 @@ class UserRoleSeeder extends Seeder
         ]);
 
         UserRole::create([
-            'name' => 'hr_department',
+            'name' => 'hr_officer',
         ]);
     }
 }

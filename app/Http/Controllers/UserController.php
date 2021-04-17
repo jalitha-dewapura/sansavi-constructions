@@ -59,7 +59,7 @@ class UserController extends Controller
             return redirect()
                     ->back()
                     ->with('error', 'Please check the required input fields')
-                    ->withErrors()
+                    ->withErrors([])
                     ->withInputs();
         }else{
             try {

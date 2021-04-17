@@ -56,9 +56,9 @@
                                     <td class="text-right">{{ number_format((float)$total_cost, 2, '.', ',') }}</td>
                                     <td class="text-center">{{ $note->is_complete == true ? "Complete" : "Not-Complete"}}</td>
                                     <td class="d-flex justify-content-around">
-                                        <button class="btn btn-outline-info btn-sm three-btn" id="view" onclick="view_user_details( {{ $note->id }} )"><b>View</b></button> 
-                                        <button class="btn btn-outline-warning btn-sm three-btn" id="edit"><b>Approve</b></button>
-                                        <button class="btn btn-outline-danger btn-sm three-btn" id="delete"><b>Decline</b></button>
+                                        <a class="btn btn-outline-info btn-sm three-btn" id="view_{{$note->id}}" href="{{ route('material_request_note.show', ['note_id' => $note->id]) }}"><b>View</b></a> 
+                                        <button class="btn btn-outline-warning btn-sm three-btn btn-approve" data-id="{{$note->id}}" data-toggle="modal" data-target="#approve_modal"><b>Approve</b></button>
+                                        <button class="btn btn-outline-danger btn-sm three-btn btn-decline"  data-id="{{$note->id}}" data-toggle="modal" data-target="#decline_modal"><b>Decline</b></button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -93,6 +93,112 @@
 <!-- /.content -->
 <!-- -- /div -- -->
 <!-- /.Content Wrapper -->
+
+<!-- Approve Modal  -->
+<div class="modal fade" role="dialog" id="approve_modal">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form action="{{ route('approve_note.approve') }}" class="form-horizontal" method="post">
+                @csrf
+                <div class="modal-body">
+                    <div class="col">
+                        <div class="card card-warning mt-3">
+                            <div class="card-header">
+                                <h3 class="card-title w-100">Approve Material Request</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <div class="col-12">
+                                        <!-- material note  -->
+                                        <div class="form-group row">
+                                            <div class="col-5">
+                                                <label  class="font-weight-normal">Material Request Note</label>
+                                            </div>
+                                            <div class="col-7"> 
+                                                <input id="approve_note_id" name="approve_note_id" class="font-weight-normal bg-white border border-white" readonly/>
+                                            </div>
+                                        </div>
+                                        <!-- /.material note  -->
+                                        <!-- approve note  -->
+                                        <div class="form-group row">
+                                            <div class="col-5">
+                                                <label  class="font-weight-normal">Approve Note</label>
+                                            </div>
+                                            <div class="col-7"> 
+                                                <textarea type="text" class="form-control form-control-sm w-100" rows="4" name="approve_note" id="approve_note" placeholder="Approve Note" required></textarea>
+                                            </div>
+                                        </div>
+                                        <!-- /.approve note -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- card-body  -->
+                        </div>
+                        <!-- card  -->
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="submit" id="approve_button" class="btn btn-outline-warning">Approve</button>
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /.Approve Modal  -->
+<!-- Decline Modal  -->
+<div class="modal fade" role="dialog" id="decline_modal">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form action="{{ route('approve_note.decline') }}" class="form-horizontal" method="post">
+                @csrf
+                <div class="modal-body">
+                    <div class="col">
+                        <div class="card card-danger mt-3">
+                            <div class="card-header">
+                                <h3 class="card-title w-100">Decline Material Request</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <div class="col-12">
+                                        <!-- material note  -->
+                                        <div class="form-group row">
+                                            <div class="col-5">
+                                                <label  class="font-weight-normal">Material Request Note</label>
+                                            </div>
+                                            <div class="col-7"> 
+                                                <input id="decline_note_id" name="decline_note_id" class="font-weight-normal bg-white border border-white" readonly/>
+                                            </div>
+                                        </div>
+                                        <!-- /.material note  -->
+                                        <!-- approve note  -->
+                                        <div class="form-group row">
+                                            <div class="col-5">
+                                                <label  class="font-weight-normal">Decline Note</label>
+                                            </div>
+                                            <div class="col-7"> 
+                                                <textarea type="text" class="form-control form-control-sm w-100" rows="4" name="decline_note" id="decline_note" placeholder="Decline Note" required></textarea>
+                                            </div>
+                                        </div>
+                                        <!-- /.approve note -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- card-body  -->
+                        </div>
+                        <!-- card  -->
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="submit" id="decline_button" class="btn btn-outline-danger">Decline</button>
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /.Decline Modal  -->
+
 @endsection
 
 @push('stack_script')
@@ -110,6 +216,44 @@
                 targets: "no-sort"
             }]
 
+        });
+    </script>
+    <script>
+        $(function(){
+            $(".btn-approve").on('click', function(event){
+                event.preventDefault();
+                var buttonObject = $( this );
+                buttonObject.attr("disabled", true);
+                var note_id_value = buttonObject.data('id');
+                var modalObject = $("#approve_modal");
+                 
+            
+                var note_id = $('#approve_note_id');
+                note_id.val(note_id_value);
+                
+                var approveButton = $('#approve_button');
+                
+
+                modalObject.modal().show();
+                buttonObject.attr("disabled", false);
+            });
+
+            $(".btn-decline").on('click', function(event){
+                event.preventDefault();
+                var buttonObject = $( this );
+                buttonObject.attr("disabled", true);
+                var note_id_value = buttonObject.data('id');
+                var modalObject = $("#decline_modal");
+                console.log(note_id_value); 
+            
+                var note_id = $('#decline_note_id');
+                note_id.val(note_id_value);
+                
+                var declineButton = $('#decline_button');
+                
+                modalObject.modal().show();
+                buttonObject.attr("disabled", false);
+            });
         });
     </script>
 @endpush

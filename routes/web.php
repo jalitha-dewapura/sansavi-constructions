@@ -10,6 +10,9 @@ use App\Http\Controllers\MaterialRequestNoteController;
 use App\Http\Controllers\ApproveNoteController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RequestMaterialsController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Reports\GeneratePO;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +25,9 @@ use App\Http\Controllers\RequestMaterialsController;
 |
 */
 
-Route::get('/', function () {
-    return view('dashboard');
-})->name('dashboard');
+//Dashboard
+Route::get('/',[DashboardController::class, 'index'])->name('dashboard.index');
+
 
 //Users
 Route::get('/users',[UserController::class, 'index'])->name('user.index');
@@ -78,6 +81,10 @@ Route::get('/request_materials/destroy/{id}',[RequestMaterialsController::class,
 //Approve Note
 Route::get('/approve_notes',[ApproveNoteController::class, 'index'])->name('approve_note.index');
 
+Route::post('/material_request_notes/approve',[ApproveNoteController::class, 'approve'])->name('approve_note.approve');
+
+Route::post('/material_request_notes/decline',[ApproveNoteController::class, 'decline'])->name('approve_note.decline');
+
 
 
 //Login
@@ -85,3 +92,6 @@ Route::get('/login',[LoginController::class, 'index'])->name('login.index');
 
 Route::post('/login',[LoginController::class, 'login'])->name('login.login');
 Route::get('/logout',[LoginController::class, 'logout'])->name('login.logout');
+
+//Report Generation
+Route::get('/generate_po',[GeneratePO::class, 'generate'])->name('generate_po.generate');

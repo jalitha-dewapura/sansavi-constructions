@@ -32,8 +32,9 @@ class ItemsController extends Controller
     public function create()
     {    
         $measuring_units = MeasuringUnits::where('is_visible', '=', true)->get();
-        $Item_count = Items::count();
-        return view('item_create', ['measuring_units' => $measuring_units, 'item_code' => ++$Item_count]);
+        $item_count = Items::max('id');
+       
+        return view('item_create', ['measuring_units' => $measuring_units, 'item_code' => ++$item_count]);
     }
 
     /**
@@ -44,6 +45,7 @@ class ItemsController extends Controller
      */
     public function store(Request $request)
     {
+        //validation
         $rule = array(
             'name'              => 'required',
             'measuring_unit_id' => 'required',
@@ -63,7 +65,7 @@ class ItemsController extends Controller
             try {
                 DB::beginTransaction();
                 
-                $item_count = Items::count();
+                $item_count = Items::max('id');
                 $new_code = $item_count+1;
 
                 if( $request->input('item_type') == 'consumable'){

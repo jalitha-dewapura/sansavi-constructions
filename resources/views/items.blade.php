@@ -9,7 +9,7 @@
 <section class="content">
 <div>
     <br>
-    <h2 class="ml-5">View / Edit / Delete All Sites</h2>
+    <h2 class="ml-5">View / Edit / Delete All Items</h2>
     <hr>
     <br>
 </div>
@@ -379,25 +379,22 @@
             description.val(description_value);
             item_id.val(item_id_value);
 
-            $.each(measuring_unit, function(k, v){
-                if(v.value == measuring_unit_value){
-                    $(v).attr('selected', true);
-                }else{
-                    $(v).attr('selected', false);
-                }
-            });
-
-            if(type_value){
-                asset.attr('checked', false);
-                consumable.attr('checked', true);
-            }else{
-                consumable.attr('checked', false);
-                asset.attr('checked', true);
-
+            $.each(measuring_unit, function(k, v){ 
+                if(v.value == measuring_unit_value){ 
+                    $(v).attr('selected', true); 
+                }else{ 
+                    $(v).attr('selected', false); 
+                } 
+            }); 
+            if(type_value){ 
+                asset.attr('checked', false); 
+                consumable.attr('checked', true); 
+            }else{ 
+                consumable.attr('checked', false); 
+                asset.attr('checked', true); 
             }
-
-            modalObject.modal().show();
-            buttonObject.attr('disabled', false);
+            modalObject.modal().show(); 
+            buttonObject.attr('disabled', false); 
         });
 
         $('.btn-delete').on('click', function(event){

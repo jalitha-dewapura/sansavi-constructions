@@ -29,7 +29,7 @@
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                 <!-- img src="{!! asset('img/avatar5.png') !!}" class="user-image img-circle elevation-2" alt="User Image" -->
                 @if( auth()->check() )
-                    <span class="d-none d-md-inline">{{ auth()->user()->name }}</span>
+                    <span class="d-none d-md-inline text-dark">{{ auth()->user()->name }}</span>
                 @endif
             </a>
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">

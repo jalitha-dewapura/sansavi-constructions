@@ -23,7 +23,7 @@ class MaterialRequestNoteController extends MY_Controller
     public function index()
     {
         $material_request_notes = MaterialRequestNote::with('materials')->get();
-        return view('material_request_notes_sk', ['material_request_notes' => $material_request_notes]);
+        return view('approve_notes_qs', ['material_request_notes' => $material_request_notes]);
     }
 
     /**
@@ -80,15 +80,15 @@ class MaterialRequestNoteController extends MY_Controller
                 );
                 
                 if (($request->has('note_id')) && ($request->filled('note_id'))) {
-                    if( ($this->auth_user_object) ){
-                        $note['updated_by_id'] = $this->auth_user_object->id;
+                    if( (auth()->user()) ){
+                        $note['updated_by_id'] = auth()->user()->id;
                     }
 
                     $materialRequestNoteObject = MaterialRequestNote::find( $request->input('note_id') );
                     $materialRequestNoteObject->update( $note );
                 }else{
-                    if( ($this->auth_user_object) ){
-                        $note['create_by_id'] = $this->auth_user_object->id;
+                    if( (auth()->user()) ){
+                        $note['create_by_id'] = auth()->user()->id;
                     }
 
                     $materialRequestNoteObject = MaterialRequestNote::create( $note );
@@ -142,7 +142,7 @@ class MaterialRequestNoteController extends MY_Controller
         $note = MaterialRequestNote::where('id', '=', $note_id)->with(['materials', 'approveNote', 'site'])->first();
         $materials = RequestMaterials::with(['item'])->where('note_id', '=', $note_id)->get();
         if($note == null){
-            return view('dashboard');
+            return view('dashboard.index');
         }
         return view('material_request_note_show', ['note' => $note, 'materials' => $materials]);
     }

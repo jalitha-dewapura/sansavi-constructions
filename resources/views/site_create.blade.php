@@ -38,7 +38,7 @@
                     @endif
                 </label>
                 <div class="col-md-6">
-                    <input type="text" class="w-100" name="name" placeholder="Site Name" value="{{ old('name') }}" required>
+                    <input type="text" class="w-100" name="name" placeholder="Site Name" value="{{ old('name') }}" >
                 </div>
             </div>     
             <!-- Select Province -->
@@ -50,7 +50,7 @@
                     @endif
                 </label>
                 <div class="col-md-6">
-                    <select class="w-100" id="province" name="province" required>
+                    <select class="w-100" id="province" name="province" >
                         <option value="">---SELECT---</option> 
                         @isset( $provinces )
                             @foreach($provinces as $province)
@@ -69,7 +69,7 @@
                     @endif
                 </label>
                 <div class="col-md-6">
-                    <select class="w-100" id="district" name="district" required>
+                    <select class="w-100" id="district" name="district">
                         <option value="">---SELECT---</option> 
                         @isset( $districts )
                             @foreach($districts as $district)
@@ -88,7 +88,7 @@
                     @endif
                 </label>
                 <div class="col-md-6">
-                    <input type="text" class="w-100" name="started_date" id="started_date" placeholder="yyyy-mm-dd" value="{{ old('started_date') }}" required>
+                    <input type="text" class="w-100" name="started_date" id="started_date" placeholder="yyyy-mm-dd" value="{{ old('started_date') }}">
                 </div>
             </div>
             <!-- Select Purchasing Officer -->

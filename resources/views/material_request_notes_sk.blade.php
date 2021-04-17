@@ -146,6 +146,6 @@
             url = url.replace("id", id);
             window.location.replace( url );
         });
-}
+        }
     </script>
 @endpush

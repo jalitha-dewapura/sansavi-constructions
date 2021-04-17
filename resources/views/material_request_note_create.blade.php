@@ -20,7 +20,7 @@
 <div class="card card-info">
     <!-- card-header -->
     <div class="card-header">
-        <h3 class="card-title">Item Details</h3>
+        <h3 class="card-title">Material Request Details</h3>
     </div>
     <!-- /.card-header -->
     

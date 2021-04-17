@@ -52,6 +52,13 @@
                             </div>
                             <!-- /.col -->
                         </div>
+                        <div class="row">
+                            <!-- /.col -->
+                            <div class="col-12 d-flex justify-content-center">
+                                <a href="">Forgot Password?</a>
+                            </div>
+                            <!-- /.col -->
+                        </div>
                     </form>
                 </div>
                 <!-- /.login-card-body -->

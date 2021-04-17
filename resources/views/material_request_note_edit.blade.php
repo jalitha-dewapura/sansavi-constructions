@@ -20,7 +20,7 @@
 <div class="card card-info">
     <!-- card-header -->
     <div class="card-header">
-        <h3 class="card-title">Item Details</h3>
+        <h3 class="card-title">Material Request Details</h3>
         <span class="text pull-right"> {{ str_pad($note->id, 5, '0', STR_PAD_LEFT) }} </span>
     </div>
     <!-- /.card-header -->
@@ -146,7 +146,7 @@
 <div class="">
     
     <!-- card -->
-    <div class="card w-100">
+    <div class="card w-100 pb-3">
         <!-- card-header -->
         <div class="card-header bg-white">
             <h3 class="card-title">Item Cart</h3>
@@ -180,7 +180,7 @@
                                 <td>{{$material->description}}</td>
                                 <td class="d-flex justify-content-around">
                                     <button class="btn btn-outline-info btn-sm three-btn btn-view" data-id="{{ $material->id }}" data-object="{{ $material->toJson() }}" data-toggle="modal" data-target="#view_modal"><b>View</b></button> 
-                                    <button class="btn btn-outline-warning btn-sm three-btn btn-edit" data-id="{{ $material->id }}" data-object="{{ $material->toJson() }}" data-toggle="modal" data-target="#edit_modal"}><b>Edit</b></button>
+                                    <button class="btn btn-outline-warning btn-sm three-btn btn-edit" data-id="{{ $material->id }}" data-object="{{ $material->toJson() }}" data-toggle="modal" data-target="#edit_modal"><b>Edit</b></button>
                                     <button class="btn btn-outline-danger btn-sm three-btn btn-delete" data-url="{{ route('request_materials.destroy', [$material->id]) }}"  data-toggle="modal" data-target="#delete_modal"><b>Delete</b></button>
                                 </td>
                             </tr>   
@@ -203,7 +203,7 @@
                             <button type="submit" class="btn btn-sm btn-outline-info col-12" name="complete"><b>Complete</b></button>
                         </div>
                         <div class="col-lg-1 col-md-1 col-sm-2">
-                            <a type="button" class="btn btn-sm btn-outline-secondary col-12" name="close" href="{{ route('dashboard') }}"><b>Close</b></a>
+                            <a type="button" class="btn btn-sm btn-outline-secondary col-12" name="close" href="{{ route('dashboard.index') }}"><b>Close</b></a>
                         </div>
                     </div>
                 </div>
@@ -290,7 +290,7 @@
     </div>
 </div>
 
-<!-- /.Wiew Modal -->
+<!-- /.View Modal -->
 <!-- Edit Modal  -->
 <div class="modal fade" role="dialog" id="edit_modal">
     <div class="modal-dialog modal-lg modal-dialog-centered">

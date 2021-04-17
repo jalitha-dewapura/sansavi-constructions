@@ -34,5 +34,19 @@ class SiteSeeder extends Seeder
             'district_id' => '24',
             'started_date' => '2001-01-01'
         ]);
+
+        Site::create([
+            'name' => 'Site D',
+            'province_id' => '4',
+            'district_id' => '14',
+            'started_date' => '2001-01-01'
+        ]);
+
+        Site::create([
+            'name' => 'Site E',
+            'province_id' => '4',
+            'district_id' => '13',
+            'started_date' => '2001-01-01'
+        ]);
     }
 }

@@ -16,75 +16,202 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::create([
-            'name' => 'User 1',
-            'username' => 'user_1',
+            'name' => 'Super 1',
+            'username' => 'super_1',
             'user_role_id' => '1',
-            'email' => 'user1@example.com',
+            'email' => 'super1@example.com',
             'phone' => '0711234567',
             'password' => Hash::make('1234')
         ]);
 
         User::create([
-            'name' => 'User 2',
-            'username' => 'user_2',
+            'name' => 'PO 1',
+            'username' => 'po_1',
             'user_role_id' => '2',
-            'email' => 'user2@example.com',
+            'email' => 'po1@example.com',
             'phone' => '0711234567',
             'password' => Hash::make('1234')
         ]);
 
         User::create([
-            'name' => 'User 3',
-            'username' => 'user_3',
+            'name' => 'PO 2',
+            'username' => 'po_2',
+            'user_role_id' => '2',
+            'email' => 'po2@example.com',
+            'phone' => '0711234567',
+            'password' => Hash::make('1234')
+        ]);
+
+        User::create([
+            'name' => 'PO 3',
+            'username' => 'po_3',
+            'user_role_id' => '2',
+            'email' => 'po3@example.com',
+            'phone' => '0711234567',
+            'password' => Hash::make('1234')
+        ]);
+
+        User::create([
+            'name' => 'PO 4',
+            'username' => 'po_4',
+            'user_role_id' => '2',
+            'email' => 'po4@example.com',
+            'phone' => '0711234567',
+            'password' => Hash::make('1234')
+        ]);
+
+        User::create([
+            'name' => 'PO 5',
+            'username' => 'po_5',
+            'user_role_id' => '2',
+            'email' => 'po5@example.com',
+            'phone' => '0711234567',
+            'password' => Hash::make('1234')
+        ]);
+
+        User::create([
+            'name' => 'PM 1',
+            'username' => 'pm_1',
             'user_role_id' => '3',
-            'email' => 'user3@example.com',
+            'email' => 'pm1@example.com',
             'phone' => '0711234567',
             'password' => Hash::make('1234')
         ]);
 
         User::create([
-            'name' => 'User 4',
-            'username' => 'user_4',
+            'name' => 'PM 2',
+            'username' => 'pm_2',
+            'user_role_id' => '3',
+            'email' => 'pm2@example.com',
+            'phone' => '0711234567',
+            'password' => Hash::make('1234')
+        ]);
+
+        User::create([
+            'name' => 'PM 3',
+            'username' => 'pm_3',
+            'user_role_id' => '3',
+            'email' => 'pm3@example.com',
+            'phone' => '0711234567',
+            'password' => Hash::make('1234')
+        ]);
+
+        User::create([
+            'name' => 'PM 4',
+            'username' => 'pm_4',
+            'user_role_id' => '3',
+            'email' => 'pm4@example.com',
+            'phone' => '0711234567',
+            'password' => Hash::make('1234')
+        ]);
+
+        User::create([
+            'name' => 'PM 5',
+            'username' => 'pm_5',
+            'user_role_id' => '3',
+            'email' => 'pm5@example.com',
+            'phone' => '0711234567',
+            'password' => Hash::make('1234')
+        ]);
+
+        User::create([
+            'name' => 'QS 1',
+            'username' => 'qs_1',
             'user_role_id' => '4',
-            'email' => 'user4@example.com',
+            'email' => 'qs1@example.com',
             'phone' => '0711234567',
             'password' => Hash::make('1234')
         ]);
 
         User::create([
-            'name' => 'User 5',
-            'username' => 'user_5',
+            'name' => 'QS 2',
+            'username' => 'qs_2',
+            'user_role_id' => '4',
+            'email' => 'qs2@example.com',
+            'phone' => '0711234567',
+            'password' => Hash::make('1234')
+        ]);
+
+        User::create([
+            'name' => 'QS 3',
+            'username' => 'qs_3',
+            'user_role_id' => '4',
+            'email' => 'qs3@example.com',
+            'phone' => '0711234567',
+            'password' => Hash::make('1234')
+        ]);
+
+        User::create([
+            'name' => 'QS 4',
+            'username' => 'qs_4',
+            'user_role_id' => '4',
+            'email' => 'qs4@example.com',
+            'phone' => '0711234567',
+            'password' => Hash::make('1234')
+        ]);
+        User::create([
+            'name' => 'QS 5',
+            'username' => 'qs_5',
+            'user_role_id' => '4',
+            'email' => 'qs5@example.com',
+            'phone' => '0711234567',
+            'password' => Hash::make('1234')
+        ]);
+        
+        User::create([
+            'name' => 'SK 1',
+            'username' => 'sk_1',
             'user_role_id' => '5',
-            'email' => 'user5@example.com',
+            'email' => 'sk1@example.com',
+            'phone' => '0711234567',
+            'password' => Hash::make('1234')
+        ]);
+        
+        User::create([
+            'name' => 'SK 2',
+            'username' => 'sk_2',
+            'user_role_id' => '5',
+            'email' => 'sk2@example.com',
+            'phone' => '0711234567',
+            'password' => Hash::make('1234')
+        ]);
+        
+        User::create([
+            'name' => 'SK 3',
+            'username' => 'sk_3',
+            'user_role_id' => '5',
+            'email' => 'sk3@example.com',
+            'phone' => '0711234567',
+            'password' => Hash::make('1234')
+        ]);
+        
+        User::create([
+            'name' => 'SK 4',
+            'username' => 'sk_4',
+            'user_role_id' => '5',
+            'email' => 'sk4@example.com',
             'phone' => '0711234567',
             'password' => Hash::make('1234')
         ]);
 
         User::create([
-            'name' => 'User 6',
-            'username' => 'user_6',
+            'name' => 'SK 5',
+            'username' => 'sk_5',
+            'user_role_id' => '5',
+            'email' => 'sk5@example.com',
+            'phone' => '0711234567',
+            'password' => Hash::make('1234')
+        ]);
+
+        User::create([
+            'name' => 'HR 1',
+            'username' => 'hr_1',
             'user_role_id' => '6',
-            'email' => 'user6@example.com',
+            'email' => 'hr1@example.com',
             'phone' => '0711234567',
             'password' => Hash::make('1234')
         ]);
 
-        User::create([
-            'name' => 'User 7',
-            'username' => 'user_7',
-            'user_role_id' => '1',
-            'email' => 'user7@example.com',
-            'phone' => '0711234567',
-            'password' => Hash::make('1234')
-        ]);
-
-        User::create([
-            'name' => 'User 8',
-            'username' => 'user_8',
-            'user_role_id' => '2',
-            'email' => 'user8@example.com',
-            'phone' => '0711234567',
-            'password' => Hash::make('1234')
-        ]);
+        
     }
 }

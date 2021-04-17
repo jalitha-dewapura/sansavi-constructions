@@ -21,3 +21,5 @@ class MeasuringUnits extends Model
         return $this->hasMany('App\Models\MeasuringUnits', 'measure_unit_id_parent', 'id');
     }
 }
+
+?>

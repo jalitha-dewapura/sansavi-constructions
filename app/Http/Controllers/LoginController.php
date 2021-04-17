@@ -46,7 +46,7 @@ class LoginController extends Controller
             
             auth()->attempt( $credentials );
             if( auth()->check() ){
-                return redirect()->route('approve_note.index');//need to change
+                return redirect()->route('dashboard.index');//need to change
             }else{
                 return redirect()
                     ->back()

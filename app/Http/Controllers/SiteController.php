@@ -80,13 +80,15 @@ class SiteController extends Controller
         );
 
         $validator = Validator::make($request->all(), $rule);
+        
 
         if($validator->fails()){
+            
             return redirect()
                     ->back()
-                    ->withInputs()
                     ->with('error', 'Please check the required input fields')
-                    ->withErrors();
+                    ->withInput()
+                    ->withErrors(['message1'=>'this is first message']);
         }else{
             try{
                 DB::BeginTransaction();

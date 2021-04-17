@@ -36,7 +36,7 @@
                 </label>
                 <div class="col-md-6">
                     @isset( $item_code )
-                        <input type="text" class="w-100 bg-white border border-white" value={{$item_code}} disabled>
+                        <input type="text" class="w-100 bg-white border border-white" value={{$item_code}} disabled> 
                     @endisset
                 </div>
             </div>
