@@ -93596,8 +93596,8 @@ window.jquerySoap = __webpack_require__(/*! jquery.soap */ "./node_modules/jquer
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Jalitha Dewapura\Documents\sansavi_constructions\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Jalitha Dewapura\Documents\sansavi_constructions\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\Projects\Laravel\sansavi_constructions\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\Projects\Laravel\sansavi_constructions\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

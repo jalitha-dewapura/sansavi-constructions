@@ -49,3 +49,24 @@ table.minimalistBlack tfoot {
 table.minimalistBlack tfoot td {
     font-size: 14px;
 }
+
+h2 {
+    text-align: center;
+}
+
+.header {
+    width: 100%;
+}
+
+.logo {
+    width: 30%;
+    float: left;
+    align-items: center;
+}
+
+.details {
+    width: 50%;
+    float: right;
+    padding-left: 20px;
+    text-align: left;
+}

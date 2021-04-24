@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Purchase Order</title>
+    <title>Annual Cost of The Site</title>
 
     <!-- Styles -->
     <link rel="stylesheet" type="text/css" href="css/mpdf.css"/>
@@ -24,17 +24,18 @@
         </div>
     </div>
     <hr>
-    <h2>Purchase Order</h2>
+    <h2>Annual Cost of The Site</h2>
     <br>
+    <p>Year : {{ $year }}</p>
     <p>Site Name : {{ $site->name }}</p>
     <p>Stock Keeper : {{ $site->stockKeeper->name?? '' }}</p>
-    <p>Delivery Date : {{ $material_request_note->delivery_date }}</p>
 
     <table class="minimalistBlack" >
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Item Name</th>
+                <th>SRN Date</th>
+                <th>Item</th>
                 <th>Quantity</th>
                 <th>Unit Price (Rs)</th=>
                 <th>Total Cost (Rs)</th=>
@@ -45,17 +46,22 @@
                 $i = 1;
             ?>        
             @foreach ($materials as $material)
-                <tr>
-                    <td>{{ $i++ }}</td>
-                    <td>{{$material->item->name}}</td>
-                    <td>{{$material->quantity}}{{$material->item->measuringUnit->name}}</td>
-                    <td style="text-align: right;" >{{ number_format((float)$material->item->price, 2, '.', ',') }}</td>
-                    <td style="text-align: right;" >{{ number_format((float)$material->cost, 2, '.', ',') }}</td>
-                </tr>
+                @if ($material->updated_at->format('Y') == $year )
+                    <tr>
+                        <td>{{ $i++ }}</td>
+                        <td>{{$material->updated_at->format('Y-m-d')}}</td>
+                        <td>{{$material->item->name}}</td>
+                        <td>{{$material->quantity}}{{$material->item->measuringUnit->name}}</td>
+                        <td style="text-align: right;" >{{ number_format((float)$material->item->price, 2, '.', ',') }}</td>
+                        <td style="text-align: right;" >{{ number_format((float)$material->cost, 2, '.', ',') }}</td>
+                    </tr>
+                @endif
             @endforeach
         </tbody>
     </table>
     <br>
+    <p>Total Cost = Rs. {{ number_format((float)$total_cost, 2, '.', ',')  }}</p>
+
     <p style="padding-bottom: 20px;">Certified By :</p>
     <p>...........................</p>
 

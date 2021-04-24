@@ -12,6 +12,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RequestMaterialsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Reports\GeneratePO;
+use App\Http\Controllers\ReportSiteAnnualCostController;
 
 
 /*
@@ -95,3 +96,6 @@ Route::get('/logout',[LoginController::class, 'logout'])->name('login.logout');
 
 //Report Generation
 Route::get('/generate_po',[GeneratePO::class, 'generate'])->name('generate_po.generate');
+
+Route::get('/report_site_annual_cost',[ReportSiteAnnualCostController::class, 'index'])->name('report_site_annual_cost.index');
+Route::post('/report_site_annual_cost/generate',[ReportSiteAnnualCostController::class, 'generate'])->name('report_site_annual_cost.generate');

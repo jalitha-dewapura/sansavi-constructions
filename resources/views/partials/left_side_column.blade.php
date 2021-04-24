@@ -122,8 +122,8 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">                                
-                                <p>&nbsp; Report 1</p>
+                            <a href="{{ route('report_site_annual_cost.index') }}" class="nav-link">                                
+                                <p>&nbsp; Annual Report for Site</p>
                             </a>
                         </li>
                     </ul>

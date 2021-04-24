@@ -56,9 +56,17 @@
                                     <td class="text-right">{{ number_format((float)$total_cost, 2, '.', ',') }}</td>
                                     <td class="text-center">{{ $note->is_complete == true ? "Complete" : "Not-Complete"}}</td>
                                     <td class="d-flex justify-content-around">
-                                        <a class="btn btn-outline-info btn-sm three-btn" id="view_{{$note->id}}" href="{{ route('material_request_note.show', ['note_id' => $note->id]) }}"><b>View</b></a> 
-                                        <button class="btn btn-outline-warning btn-sm three-btn btn-approve" data-id="{{$note->id}}" data-toggle="modal" data-target="#approve_modal"><b>Approve</b></button>
-                                        <button class="btn btn-outline-danger btn-sm three-btn btn-decline"  data-id="{{$note->id}}" data-toggle="modal" data-target="#decline_modal"><b>Decline</b></button>
+                                        @if($note->is_complete and $note->is_approved == "Pending")
+                                            <a class="btn btn-outline-info btn-sm three-btn" id="view_{{$note->id}}" href="{{ route('material_request_note.show', ['note_id' => $note->id]) }}"><b>View</b></a> 
+                                            <button class="btn btn-outline-warning btn-sm three-btn btn-approve" data-id="{{$note->id}}" data-toggle="modal" data-target="#approve_modal"><b>Approve</b></button>
+                                            <button class="btn btn-outline-danger btn-sm three-btn btn-decline"  data-id="{{$note->id}}" data-toggle="modal" data-target="#decline_modal"><b>Decline</b></button>
+                                        @elseif($note->is_approved == "Approved")
+                                            <a class="btn btn-outline-info btn-sm two-btn" id="view_{{$note->id}}" href="{{ route('material_request_note.show', ['note_id' => $note->id]) }}"><b>View</b></a> 
+                                            <a class="btn btn-outline-warning btn-sm two-btn" id="download_{{$note->id}}" href="{{ route('generate_po.generate', ['note_id' => $note->id]) }}"><b>Download</b></a> 
+                                        @elseif($note->is_approved == "Declined")
+                                            <a class="btn btn-outline-info btn-sm two-btn" id="view_{{$note->id}}" href="{{ route('material_request_note.show', ['note_id' => $note->id]) }}"><b>View</b></a> 
+                                            <a class="btn btn-outline-warning btn-sm two-btn" id="note_{{$note->id}}" href="{{ route('material_request_note.show', ['note_id' => $note->id]) }}"><b>Decline Note</b></a> 
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach
@@ -233,7 +241,6 @@
                 
                 var approveButton = $('#approve_button');
                 
-
                 modalObject.modal().show();
                 buttonObject.attr("disabled", false);
             });

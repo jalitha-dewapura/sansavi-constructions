@@ -20,10 +20,15 @@ class MaterialRequestNoteController extends MY_Controller
      *
      * @return \Illuminate\Http\Response
      */
+    //show all material requests
     public function index()
     {
-        $material_request_notes = MaterialRequestNote::with('materials')->get();
-        return view('approve_notes_qs', ['material_request_notes' => $material_request_notes]);
+        //for only quantity surveyors
+        $material_request_notes = MaterialRequestNote::where('is_complete', '=', 1)->with('materials')->get();
+        return view('material_request_notes_qs', ['material_request_notes' => $material_request_notes]);
+        //for only stock keepers
+        //  $material_request_notes = MaterialRequestNote::with('materials')->get();
+        //  return view('material_request_notes_sk', ['material_request_notes' => $material_request_notes]);
     }
 
     /**
@@ -31,6 +36,7 @@ class MaterialRequestNoteController extends MY_Controller
      *
      * @return \Illuminate\Http\Response
      */
+    //create new material request
     public function create()
     {
         $sites = Site::where('is_active', '=', '1')->get();//->where('is_complete', '=', '0')
@@ -44,6 +50,7 @@ class MaterialRequestNoteController extends MY_Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    //show new material request or existing material request
     public function store(Request $request)
     {
         $rules = array(
@@ -78,7 +85,7 @@ class MaterialRequestNoteController extends MY_Controller
                     'delivery_date' => $request->input('delivery_date'),
                     'is_approved'   => "Pending"
                 );
-                
+                //If the note is already created
                 if (($request->has('note_id')) && ($request->filled('note_id'))) {
                     if( (auth()->user()) ){
                         $note['updated_by_id'] = auth()->user()->id;
@@ -86,7 +93,7 @@ class MaterialRequestNoteController extends MY_Controller
 
                     $materialRequestNoteObject = MaterialRequestNote::find( $request->input('note_id') );
                     $materialRequestNoteObject->update( $note );
-                }else{
+                }else{//if the not is not created yet
                     if( (auth()->user()) ){
                         $note['create_by_id'] = auth()->user()->id;
                     }
@@ -126,6 +133,7 @@ class MaterialRequestNoteController extends MY_Controller
      * @param  \App\Models\MaterialRequestNote  $materialRequestNote
      * @return \Illuminate\Http\Response
      */
+    //View option of material request
     public function show(Request $request)
     {
         $rules = array(
@@ -153,6 +161,7 @@ class MaterialRequestNoteController extends MY_Controller
      * @param  \App\Models\MaterialRequestNote  $materialRequestNote
      * @return \Illuminate\Http\Response
      */
+    //When the edit option of material request is clicked and the request is not completed yet.
     public function edit(Request $request, MaterialRequestNote $materialRequestNote)
     {
         $rules = array(
@@ -193,27 +202,30 @@ class MaterialRequestNoteController extends MY_Controller
      * @param  \App\Models\MaterialRequestNote  $materialRequestNote
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MaterialRequestNote $materialRequestNote)
+    //when the material request is completed
+    public function update(Request $request)
     {
         if (($request->has('note_id')) && ($request->filled('note_id'))) {
-           
-            $materialRequestNoteObject = MaterialRequestNote::find( $request->input('note_id') )->with(['materials'])->first();
-            if($materialRequestNoteObject->materials->isNotEmpty()){
-                $note = array(
-                    'is_complete' => true
-                );
-                $materialRequestNoteObject->update( $note );
-                unset($note);
-
+            $note_id = $request->input('note_id');
+            $materialRequestNoteObject = MaterialRequestNote::where('id','=',$note_id)->with(['materials'])->first();
+            if($materialRequestNoteObject->materials->isNotEmpty() && $materialRequestNoteObject->is_complete == 0){
+                $materialRequestNoteObject->update(['is_complete' => true]);
                 return redirect()
-                ->route('material_request_note.index')
-                ->with('success','SRN is successfully completed!');
+                    ->route('material_request_note.index')
+                    ->with('success','SRN is successfully completed!');
+            }else{
+                return redirect()
+                    ->route('material_request_note.edit', ['note_id' => $materialRequestNoteObject->id])
+                    ->with('error','SRN is not completed!');
             }
+        }else{
+            $material_request_notes = MaterialRequestNote::with('materials')->get();
+            return redirect()
+                ->route('material_request_notes', ['material_request_notes' => $material_request_notes])
+                ->with('error','SRN is not completed!');
         }
 
-        return redirect()
-            ->route('material_request_note.edit', ['note_id' => $materialRequestNoteObject->id])
-            ->with('error','SRN is not completed!');
+        
         
     }
 
