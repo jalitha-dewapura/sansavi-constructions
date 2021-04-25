@@ -13,6 +13,7 @@ use App\Http\Controllers\RequestMaterialsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Reports\GeneratePO;
 use App\Http\Controllers\ReportSiteAnnualCostController;
+use App\Http\Controllers\ReportAnnualCostController;
 
 
 /*
@@ -99,3 +100,6 @@ Route::get('/generate_po',[GeneratePO::class, 'generate'])->name('generate_po.ge
 
 Route::get('/report_site_annual_cost',[ReportSiteAnnualCostController::class, 'index'])->name('report_site_annual_cost.index');
 Route::post('/report_site_annual_cost/generate',[ReportSiteAnnualCostController::class, 'generate'])->name('report_site_annual_cost.generate');
+
+Route::get('/report_annual_cost',[ReportAnnualCostController::class, 'index'])->name('report_annual_cost.index');
+Route::post('/report_annual_cost/generate',[ReportAnnualCostController::class, 'generate'])->name('report_annual_cost.generate');

@@ -10,7 +10,7 @@ use App\Models\Items;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class ReportSiteAnnualCostController extends Controller
+class ReportAnnualCostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,11 +18,10 @@ class ReportSiteAnnualCostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
-        $sites = Site::where('is_active', '=', '1')->get();
+    {
         $current_year = now()->year;
         // dd($current_year);
-        return view('report_site_annual_cost', ['sites' => $sites, 'current_year' => $current_year]);
+        return view('report_annual_cost', ['current_year' => $current_year]);
     }
 
     /**
@@ -33,7 +32,6 @@ class ReportSiteAnnualCostController extends Controller
     public function generate(Request $request)
     {
         $rule = array(
-            'site' => 'required',
             'year' => 'required'
         );
 
@@ -44,30 +42,24 @@ class ReportSiteAnnualCostController extends Controller
                     ->back()
                     ->with('error', 'Please check the required input fields');
         }else{
-            $site_id = $request->input('site');
             $year = $request->input('year');
-            $material_request_notes = MaterialRequestNote::where('site_id', '=', $site_id)->where('site_id', '=', $site_id)->get();
+            $material_request_notes = MaterialRequestNote::with(['site', 'materials'])->where('is_approved', '=', 'Approved')->get();
             $items = Items::with(['measuringUnit'])->get();
-            $materials = collect();
+            $notes = collect();
             foreach($material_request_notes as $note)
             {
-                $materials = $materials->concat(RequestMaterials::with('item')->where('note_id', '=', $note->id)->get());             
-            }
-
-            //calculating the total cost of the site
-            $total_cost = 0;
-            foreach($materials as $material)
-            {   
-                if($material->updated_at->format('Y') == $year)
+                if(substr($note->note_date, 0,4) == $year)
                 {
-                    $total_cost +=  $material->cost;     
+                    $total_cost = 0;
+                    foreach($note->materials as $material)
+                    {
+                        $total_cost += $material->cost;
+                    }
+                    $notes = $notes->concat([['site_name' => $note->site->name, 'note_date' => $note->note_date, 'cost' => $total_cost]]);
                 }
             }
-
-            $site = Site::with('stockKeeper')->where('id','=',$site_id)->first();
-            $site_name = $site->name;
-            
-            $fileName = 'Site_Annual_Report_' . $site_name . '_' . $year . '.pdf';
+        
+            $fileName = 'Annual_Report_' . $year . '.pdf';
             
             $mpdf = new \Mpdf\Mpdf([
                 'margin_left' => 30,
@@ -78,7 +70,7 @@ class ReportSiteAnnualCostController extends Controller
                 'margin_bottom' => 10
             ]); 
 
-            $html = \View::make('reports.generate_site_annual_report')->with('materials', $materials)->with('site', $site)->with('year', $year)->with('items', $items)->with('total_cost', $total_cost);
+            $html = \View::make('reports.generate_annual_report')->with('notes', $notes)->with('year', $year);
 
             $html = $html->render();
 
