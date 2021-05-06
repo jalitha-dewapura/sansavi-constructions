@@ -86,7 +86,7 @@ class RequestMaterialsController extends Controller
         }else{
             TRY{
                 DB::beginTransaction();
-                $requestMaterial = RequestMaterials::find( $request->input('material_id') )->with(['item'])->first();
+                $requestMaterial = RequestMaterials::where('id', '=', $request->input('material_id') )->with(['item'])->first();
                 $unit_price = $requestMaterial->item->price;
                 $total_cost = $unit_price * $request->input('quantity');
                 $material = array(
@@ -94,7 +94,6 @@ class RequestMaterialsController extends Controller
                     'cost' => $total_cost,
                     'description' => $request->input('description')
                 );
-
                 
                 $requestMaterial->update($material);
                 unset($material);

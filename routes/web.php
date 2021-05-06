@@ -87,7 +87,7 @@ Route::get('/material_request_note',[MaterialRequestNoteController::class, 'show
 Route::get('/material_request_note/destroy/{id}',[MaterialRequestNoteController::class, 'destroy'])->name('material_request_note.destroy')->middleware(['CheckRole:1,5']);
 
 //Request Materials
-Route::get('/request_materials/update',[RequestMaterialsController::class, 'update'])->name('request_materials.update')->middleware(['CheckRole:1,5']);
+Route::post('/request_materials/update',[RequestMaterialsController::class, 'update'])->name('request_materials.update')->middleware(['CheckRole:1,5']);
 Route::get('/request_materials/destroy/{id}',[RequestMaterialsController::class, 'destroy'])->name('request_materials.destroy')->middleware(['CheckRole:1,5']);
 
 //Approve Note

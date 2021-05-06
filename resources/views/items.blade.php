@@ -55,8 +55,10 @@
                                     <td>{{ $item->is_consumable == true ? "Consumable" : "Asset" }}</td>
                                     <td class="d-flex justify-content-around">
                                         <button class="btn btn-outline-info btn-sm three-btn btn-view" data-object="{{ $item->toJson() }}" data-toggle="modal" data-target="#view_modal"><b>View</b></button> 
+                                        @if(auth()->user()->user_role_id == 2 or auth()->user()->user_role_id == 4)
                                         <button class="btn btn-outline-warning btn-sm three-btn btn-edit" data-object="{{ $item->toJson() }}" data-toggle="modal" data-target="#edit_modal"><b>Edit</b></button>
                                         <button class="btn btn-outline-danger btn-sm three-btn btn-delete" data-url="{{ route('item.destroy', [$item->id]) }}" data-toggle="modal" data-target="#delete_modal"><b>Delete</b></button>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach
