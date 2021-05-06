@@ -43,7 +43,7 @@ Route::post('/user/create',[UserController::class, 'store'])->name('user.store')
 
 Route::get('/user/{id}',[UserController::class, 'show'])->name('user.show');
 
-Route::get('/user/update',[UserController::class, 'update'])->name('user.update')->middleware(['CheckRole:1,6']);
+Route::post('/user/update',[UserController::class, 'update'])->name('user.update');
 
 Route::get('/user/destroy/{id}',[UserController::class, 'destroy'])->name('user.destroy')->middleware(['CheckRole:1,6']);
 

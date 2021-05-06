@@ -44,11 +44,12 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        // validation 
         $rule = array(
             'user_role_id'  => 'required',
             'name'          => 'required',
             'username'      => 'required',
-            'email'         => 'required',
+            'email'         => ['required', 'unique:users'],
             'phone'         => 'required',
             'password'      => 'required'
         );
@@ -58,13 +59,11 @@ class UserController extends Controller
         if($validator->fails()){
             return redirect()
                     ->back()
-                    ->with('error', 'Please check the required input fields')
-                    ->withErrors([])
-                    ->withInputs();
+                    ->with('error', 'Please check the required input fields');
         }else{
             try {
                 DB::beginTransaction();
-                
+                // create user array with $request inputs
                 $user = array(
                     'user_role_id'  => $request->input('user_role_id'),
                     'name'          => $request->input('name'),
@@ -122,9 +121,52 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        // validation 
+        $rule = array(
+            'user_id_edit'  => 'required',
+            'name_edit'     => 'required',
+            'phone_edit'    => 'required',
+            'email_edit'    => 'required'
+        );
+        
+
+        $validator = Validator::make($request->all(), $rule);
+        
+        if($validator->fails()){
+            return redirect()
+                    ->back()
+                    ->with('error', 'Please check the required input fields');
+        }else{
+            
+            
+
+            try {
+                DB::beginTransaction();
+                // create user array with $request inputs
+                $user = array(
+                    'name'          => $request->input('name_edit'),
+                    'email'         => $request->input('email_edit'),
+                    'phone'         => $request->input('phone_edit')
+                );
+
+                $user_id = $request->input('user_id_edit');
+                $userPbject = User::where('id', '=', $user_id)->update( $user );
+                
+                unset( $user );
+                
+                DB::commit();
+            }catch(Exception $e){
+                DB::rollback(); 
+                return redirect()
+                    ->back()
+                    ->with('error','Exception');
+            }
+            return redirect()
+                    ->back()
+                    ->with('success','Your profile was updated successfully!');
+        }
     }
 
     /**

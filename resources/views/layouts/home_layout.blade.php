@@ -24,11 +24,13 @@
     
         <link rel="stylesheet" type="text/css" href="{!! asset('css/app.css') !!}"/>
         <link rel="stylesheet" type="text/css" href="{!! asset('css/main.css') !!}"/>
+        <link rel="stylesheet" type="text/css" href="{!! asset('css/calendar.css') !!}"/>
     @show
     <!-- /.style sheet -->
     <!-- script -->
     @section('script_section') 
         <script src="{!! asset('js/app.js') !!}"></script>
+        <!-- <script src="{!! asset('js/calendar.js') !!}"></script> -->
         <script>
             window.my_app_url = my_app_url = "{{ config('app.url') }}";
             window.auth_user_object = new Object();

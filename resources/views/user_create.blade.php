@@ -100,7 +100,7 @@
                     Phone Number
                 </label>
                 <div class="col-md-6">
-                    <input type="text" class="w-100" name="phone" id="phone" placeholder="07xxxxxxxx" value="{{ old('phone') }}">
+                    <input type="text" class="w-100" name="phone" id="phone" placeholder="07xxxxxxxx" pattern="[0-9]{10}" value="{{ old('phone') }}">
                 </div>
             </div>
             <!-- Password -->
