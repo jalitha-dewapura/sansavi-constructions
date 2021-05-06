@@ -116,13 +116,13 @@ class ApproveNoteController extends Controller
                     }else{
                         $auth_id = null;
                     }
-                    
                     $approveNote = array(
                         'note_id'         => $request->input('approve_note_id'),
                         'description'     => $request->input('approve_note'),
                         'is_approved'     => true,
-                        'create_by_id'    => $auth_id
+                        'created_by_id'    => $auth_id
                     );
+                    
                    
                     $approveNoteObject = ApproveNote::create( $approveNote );
                     unset($approveNote);
@@ -147,7 +147,7 @@ class ApproveNoteController extends Controller
                 // return view('approve_notes_qs', ['material_request_notes' => $material_request_notes]);
             }
         }else{
-            return redirect()->route('material_request_note.index')
+            return redirect()->route('material_request_note.index_qs')
                             ->with('error', 'The material request was already approved!');
         }
         
@@ -183,7 +183,7 @@ class ApproveNoteController extends Controller
                         'note_id'         => $request->input('decline_note_id'),
                         'description'     => $request->input('decline_note'),
                         'is_approved'     => false,
-                        'create_by_id'    => $auth_id
+                        'created_by_id'    => $auth_id
                     );
                    
                     $approveNoteObject = ApproveNote::create( $approveNote );
@@ -209,7 +209,7 @@ class ApproveNoteController extends Controller
                 // return view('approve_notes_qs', ['material_request_notes' => $material_request_notes]);
             }
         }else{
-            return redirect()->route('material_request_note.index')
+            return redirect()->route('material_request_note.index_qs')
                             ->with('error', 'The material request was already declined!');
         }
     }

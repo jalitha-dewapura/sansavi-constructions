@@ -75,7 +75,7 @@
                                 @foreach($materials as $material)
                                 <tr>
                                     <td>{{ $material->item->name }}</td>
-                                    <td>{{ $material->quantity }}</td>
+                                    <td>{{ $material->quantity }} {{ $material->item->measuringUnit->name }}</td>
                                     <td class="text-right">{{ number_format((float)$material->item->price, 2, '.', ',') }}</td>
                                     <td class="text-right">{{ number_format((float)$material->cost, 2, '.', ',') }}</td>
                                     <td>{{ $material->description }}</td>

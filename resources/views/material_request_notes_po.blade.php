@@ -70,8 +70,6 @@
                                     <td class="d-flex justify-content-start">
                                         @if($note->is_approved == "Pending")
                                             <a class="btn btn-outline-info btn-sm three-btn" id="view_{{$note->id}}" href="{{ route('material_request_note.show', ['note_id' => $note->id]) }}"><b>View</b></a> 
-                                            <button class="btn btn-outline-warning btn-sm three-btn btn-approve" data-id="{{$note->id}}" data-toggle="modal" data-target="#approve_modal"><b>Approve</b></button>
-                                            <button class="btn btn-outline-danger btn-sm three-btn btn-decline"  data-id="{{$note->id}}" data-toggle="modal" data-target="#decline_modal"><b>Decline</b></button>
                                         @elseif($note->is_approved == "Approved")
                                             @if($note->goodReceiveNote)
                                                 <a class="btn btn-outline-info btn-sm three-btn" id="view_{{$note->id}}" href="{{ route('material_request_note.show', ['note_id' => $note->id]) }}"><b>View</b></a> 
@@ -120,111 +118,6 @@
 <!-- /.content -->
 <!-- -- /div -- -->
 <!-- /.Content Wrapper -->
-
-<!-- Approve Modal  -->
-<div class="modal fade" role="dialog" id="approve_modal">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <form action="{{ route('approve_note.approve') }}" class="form-horizontal" method="post">
-                @csrf
-                <div class="modal-body">
-                    <div class="col">
-                        <div class="card card-warning mt-3">
-                            <div class="card-header">
-                                <h3 class="card-title w-100">Approve Material Request</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="form-row">
-                                    <div class="col-12">
-                                        <!-- material note  -->
-                                        <div class="form-group row">
-                                            <div class="col-5">
-                                                <label  class="font-weight-normal">Material Request Note</label>
-                                            </div>
-                                            <div class="col-7"> 
-                                                <input id="approve_note_id" name="approve_note_id" class="font-weight-normal bg-white border border-white" readonly/>
-                                            </div>
-                                        </div>
-                                        <!-- /.material note  -->
-                                        <!-- approve note  -->
-                                        <div class="form-group row">
-                                            <div class="col-5">
-                                                <label  class="font-weight-normal">Approve Note</label>
-                                            </div>
-                                            <div class="col-7"> 
-                                                <textarea type="text" class="form-control form-control-sm w-100" rows="4" name="approve_note" id="approve_note" placeholder="Approve Note" required></textarea>
-                                            </div>
-                                        </div>
-                                        <!-- /.approve note -->
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- card-body  -->
-                        </div>
-                        <!-- card  -->
-                    </div>
-                </div>
-                <div class="modal-footer d-flex justify-content-center">
-                    <button type="submit" id="approve_button" class="btn btn-outline-warning">Approve</button>
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- /.Approve Modal  -->
-<!-- Decline Modal  -->
-<div class="modal fade" role="dialog" id="decline_modal">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <form action="{{ route('approve_note.decline') }}" class="form-horizontal" method="post">
-                @csrf
-                <div class="modal-body">
-                    <div class="col">
-                        <div class="card card-danger mt-3">
-                            <div class="card-header">
-                                <h3 class="card-title w-100">Decline Material Request</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="form-row">
-                                    <div class="col-12">
-                                        <!-- material note  -->
-                                        <div class="form-group row">
-                                            <div class="col-5">
-                                                <label  class="font-weight-normal">Material Request Note</label>
-                                            </div>
-                                            <div class="col-7"> 
-                                                <input id="decline_note_id" name="decline_note_id" class="font-weight-normal bg-white border border-white" readonly/>
-                                            </div>
-                                        </div>
-                                        <!-- /.material note  -->
-                                        <!-- approve note  -->
-                                        <div class="form-group row">
-                                            <div class="col-5">
-                                                <label  class="font-weight-normal">Decline Note</label>
-                                            </div>
-                                            <div class="col-7"> 
-                                                <textarea type="text" class="form-control form-control-sm w-100" rows="4" name="decline_note" id="decline_note" placeholder="Decline Note" required></textarea>
-                                            </div>
-                                        </div>
-                                        <!-- /.approve note -->
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- card-body  -->
-                        </div>
-                        <!-- card  -->
-                    </div>
-                </div>
-                <div class="modal-footer d-flex justify-content-center">
-                    <button type="submit" id="decline_button" class="btn btn-outline-danger">Decline</button>
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- /.Decline Modal  -->
 
 
 <!-- View Approve Note Modal  -->

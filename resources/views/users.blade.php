@@ -183,27 +183,14 @@
 @push('stack_script')
 
 <script>
-    $(function () {
-        $('#table').DataTable({
-            'paging'      : true,
-            'lengthChange': true,
-            'searching'   : true,
-            'ordering'    : true,
-            'info'        : true,
-            'autoWidth'   : false,
-            columnDefs: [{
-                orderable: false,
-                targets: "no-sort"
-            }]
-        });
-
+    $(function () {    
         $('.btn-view').on('click', function(event){
             event.preventDefault();
             var buttonObject = $( this );
             buttonObject.attr('disabled', true);
             var jsonObject = buttonObject.data('object');
             var modalObject = $('#view_modal');
-
+            console.log(jsonObject);
             var name = $('#name_view');
             var user_role = $('#user_role_view');
             var username = $('#username_view');
@@ -234,6 +221,19 @@
             $('#delete_button').on('click', function(){
                 window.location.replace( url );
             });
+        });
+
+        $('#table').DataTable({
+            'paging'      : true,
+            'lengthChange': true,
+            'searching'   : true,
+            'ordering'    : true,
+            'info'        : true,
+            'autoWidth'   : false,
+            columnDefs: [{
+                orderable: false,
+                targets: "no-sort"
+            }]
         });
     });
 </script>

@@ -87,7 +87,7 @@ class SiteController extends Controller
             return redirect()
                     ->back()
                     ->with('error', 'Please check the required input fields')
-                    ->withInput()
+                    ->withInputs()
                     ->withErrors(['message1'=>'this is first message']);
         }else{
             try{
@@ -164,9 +164,7 @@ class SiteController extends Controller
         if($validator->fails()){
             return redirect()
                 ->back()
-                ->withInputs()
-                ->with('error', 'Please check the required input fields')
-                ->withErrors();
+                ->with('error', 'Please check the required input fields');
         }else{
             try{
                 DB::BeginTransaction();

@@ -19,14 +19,15 @@
     <body class="hold-transition login-page bg-light">
         <div class="login-box" >
             <div class="login-logo">
-                <h2>User Login</h2>
+                <!-- a href="#"><b>Dengue</b></a -->
                 <!-- <img src="/img/Ransavi-Construction-Logo.png" alt="logo" class="img-responsive"> -->
+                <h2>Forgot Password</h2>
             </div>
             <!-- /.login-logo -->
             <div class="card login">
                 <div class="card-body login-card-body">
-                    <p class="login-box-msg">Sign in to start your session</p>
-                    <form action="{{route('login.login')}}" method="post">
+                    <p class="login-box-msg">Enter your email address and we'll send you a link to reset your password</p>
+                    <form action="{{route('forgot_password.forgot')}}" method="post">
                     
                         @csrf
                         <div class="input-group mb-3">
@@ -37,25 +38,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="input-group mb-3">
-                            <input type="password" name="password" id="password" class="form-control" placeholder="Password">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-lock"></span>
-                                </div>
-                            </div>
-                        </div>
                         <div class="row">
                             <!-- /.col -->
                             <div class="col-12 mb-3">
-                                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-                            </div>
-                            <!-- /.col -->
-                        </div>
-                        <div class="row">
-                            <!-- /.col -->
-                            <div class="col-12 d-flex justify-content-center">
-                                <a href="{{ route('forgot_password.index') }}">Forgot Password?</a>
+                                <button type="submit" class="btn btn-primary btn-block">Send Email</button>
+                                <a class="btn btn-secondary btn-block" href="{{ route('login.index') }}">Cancel</a>
                             </div>
                             <!-- /.col -->
                         </div>

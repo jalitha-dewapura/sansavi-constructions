@@ -304,18 +304,6 @@
 
 <script>
     $(function () {
-        $('#table').DataTable({
-            'paging'      : true,
-            'lengthChange': true,
-            'searching'   : true,
-            'ordering'    : true,
-            'info'        : true,
-            'autoWidth'   : false,
-            columnDefs: [{
-                orderable: false,
-                targets: "no-sort"
-            }]
-        });
 
         $('.btn-view').on('click', function(event){
             event.preventDefault();
@@ -405,6 +393,19 @@
             $('#delete_button').on('click', function(){
                 window.location.replace( url );
             });
+        });
+
+        $('#table').DataTable({
+            'paging'      : true,
+            'lengthChange': true,
+            'searching'   : true,
+            'ordering'    : true,
+            'info'        : true,
+            'autoWidth'   : false,
+            columnDefs: [{
+                orderable: false,
+                targets: "no-sort"
+            }]
         });
     });
 </script>

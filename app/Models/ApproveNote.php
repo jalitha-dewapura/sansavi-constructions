@@ -15,4 +15,9 @@ class ApproveNote extends Model
     {
         return $this->belongsTo('App\Models\MaterialRequestNote', 'note _id', 'id');
     }
+
+    public function quantitySurveyor()
+    {
+        return $this->belongsTo('App\Models\User', 'created_by_id', 'id');
+    }
 }

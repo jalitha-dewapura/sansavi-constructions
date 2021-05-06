@@ -42,7 +42,9 @@
                         <option value="">---SELECT---</option> 
                         @isset( $user_roles )
                             @foreach($user_roles as $user_role)
-                                <option value="{{ $user_role->id }}" {{ (old('user_role_id') == $user_role->id) ? 'selected': null }}> {{$user_role->name}} </option>
+                                @if($user_role->id != 1)
+                                    <option value="{{ $user_role->id }}" {{ (old('user_role_id') == $user_role->id) ? 'selected': null }}> {{$user_role->name}} </option>
+                                @endif
                             @endforeach
                         @endisset
                     </select>
@@ -110,7 +112,7 @@
                     @endif
                 </label>
                 <div class="col-md-6">
-                    <input type="text" class="w-100" name="password" id="password" placeholder="Default Passward" value="{{ old('password') }}" required>
+                    <input type="password" class="w-100" name="password" id="password" placeholder="Default Passward" value="{{ old('password') }}" required>
                 </div>
             </div>
             <br>

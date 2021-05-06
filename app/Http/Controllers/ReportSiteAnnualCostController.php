@@ -46,7 +46,7 @@ class ReportSiteAnnualCostController extends Controller
         }else{
             $site_id = $request->input('site');
             $year = $request->input('year');
-            $material_request_notes = MaterialRequestNote::where('site_id', '=', $site_id)->where('site_id', '=', $site_id)->get();
+            $material_request_notes = MaterialRequestNote::where('site_id', '=', $site_id)->where('is_approved', '=', 'Approved')->get();
             $items = Items::with(['measuringUnit'])->get();
             $materials = collect();
             foreach($material_request_notes as $note)

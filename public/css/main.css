@@ -19,8 +19,9 @@
 
 .three-btn {
     padding: 2px 6px;
-    margin: 1px;
-    width: 30%;
+    margin: 3px;
+    margin-right: 5px;
+    width: 29%;
 }
 
 .two-btn {
@@ -32,7 +33,7 @@
 .one-btn {
     padding: 2px 6px;
     margin: 1px;
-    width: 90%;
+    width: 95%;
 }
 
 input::-webkit-outer-spin-button,

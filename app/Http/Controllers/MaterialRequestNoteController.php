@@ -6,6 +6,7 @@ use App\Models\MaterialRequestNote;
 use App\Models\Items;
 use App\Models\Site;
 use App\Models\RequestMaterials;
+use App\Models\ApproveNote;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -21,14 +22,77 @@ class MaterialRequestNoteController extends MY_Controller
      * @return \Illuminate\Http\Response
      */
     //show all material requests
-    public function index()
+    public function index_qs()
     {
-        //for only quantity surveyors
-        $material_request_notes = MaterialRequestNote::where('is_complete', '=', 1)->with('materials')->get();
+        if((auth()->user())){
+            $user_id = auth()->user()->id;
+            $sites = Site::where('is_active', '=', '1')->where('qs_id', '=', $user_id)->get();
+        }else{
+            $sites = Site::where('is_active', '=', '1')->get();
+        }
+        $material_request_notes = collect();
+        foreach($sites as $site)
+        {
+            $material_request_notes = $material_request_notes->concat(MaterialRequestNote::with('materials', 'approveNote', 'goodReceiveNote')->where('is_complete', '=', 1)->where('site_id', '=', $site->id)->get());             
+        }
+        //$material_request_notes = MaterialRequestNote::where('is_complete', '=', 1)->with('materials', 'approveNote', 'goodReceiveNote')->get();
         return view('material_request_notes_qs', ['material_request_notes' => $material_request_notes]);
-        //for only stock keepers
-        //  $material_request_notes = MaterialRequestNote::with('materials')->get();
-        //  return view('material_request_notes_sk', ['material_request_notes' => $material_request_notes]);
+    }
+
+    public function index_sk()
+    {   
+        if((auth()->user())){
+            $user_id = auth()->user()->id;
+            $sites = Site::where('is_active', '=', '1')->where('sk_id', '=', $user_id)->get();
+        }else{
+            $sites = Site::where('is_active', '=', '1')->get();
+        }
+        $material_request_notes = collect();
+        foreach($sites as $site)
+        {
+            $material_request_notes = $material_request_notes->concat(MaterialRequestNote::with(['materials', 'goodReceiveNote', 'site', 'approveNote'])->where('site_id', '=', $site->id)->get());             
+        }
+        // $material_request_notes = MaterialRequestNote::with(['materials', 'goodReceiveNote', 'site', 'approveNote'])->get();
+        $approve_notes = ApproveNote::with(['quantitySurveyor'])->get();
+        return view('material_request_notes_sk', ['material_request_notes' => $material_request_notes, 'approve_notes' => $approve_notes]);
+    }
+
+    public function index_pm()
+    {
+        if((auth()->user())){
+            $user_id = auth()->user()->id;
+            $sites = Site::where('is_active', '=', '1')->where('pm_id', '=', $user_id)->get();
+        }else{
+            $sites = Site::where('is_active', '=', '1')->get();
+        }
+        $material_request_notes = collect();
+        foreach($sites as $site)
+        {
+            $material_request_notes = $material_request_notes->concat(MaterialRequestNote::with('materials', 'approveNote', 'goodReceiveNote')->where('is_complete', '=', 1)->where('site_id', '=', $site->id)->get());             
+        }
+        //$material_request_notes = MaterialRequestNote::where('is_complete', '=', 1)->with('materials', 'approveNote', 'goodReceiveNote')->get();
+        return view('material_request_notes_pm', ['material_request_notes' => $material_request_notes]);
+    }
+    public function index_po()
+    {
+        if((auth()->user())){
+            $user_id = auth()->user()->id;
+            $sites = Site::where('is_active', '=', '1')->where('po_id', '=', $user_id)->get();
+        }else{
+            $sites = Site::where('is_active', '=', '1')->get();
+        }
+        $material_request_notes = collect();
+        foreach($sites as $site)
+        {
+            $material_request_notes = $material_request_notes->concat(MaterialRequestNote::with(['materials', 'approveNote', 'goodReceiveNote'])->where('is_complete', '=', 1)->where('site_id', '=', $site->id)->get());             
+        }
+        //$material_request_notes = MaterialRequestNote::where('is_complete', '=', 1)->with('materials', 'approveNote', 'goodReceiveNote')->get();
+        return view('material_request_notes_po', ['material_request_notes' => $material_request_notes]);
+    }
+    public function index_hr()
+    {
+        $material_request_notes = MaterialRequestNote::where('is_complete', '=', 1)->with('materials')->get();
+        return view('material_request_notes_hr', ['material_request_notes' => $material_request_notes]);
     }
 
     /**
@@ -39,7 +103,12 @@ class MaterialRequestNoteController extends MY_Controller
     //create new material request
     public function create()
     {
-        $sites = Site::where('is_active', '=', '1')->get();//->where('is_complete', '=', '0')
+        if((auth()->user())){
+            $user_id = auth()->user()->id;
+            $sites = Site::where('is_active', '=', '1')->where('sk_id', '=', $user_id)->get();
+        }else{
+            $sites = Site::where('is_active', '=', '1')->get();
+        }
         $items = Items::with(['measuringUnit'])->get();
         return view('material_request_note_create', ['items' => $items, 'sites' => $sites]);
     }
@@ -95,7 +164,7 @@ class MaterialRequestNoteController extends MY_Controller
                     $materialRequestNoteObject->update( $note );
                 }else{//if the not is not created yet
                     if( (auth()->user()) ){
-                        $note['create_by_id'] = auth()->user()->id;
+                        $note['created_by_id'] = auth()->user()->id;
                     }
 
                     $materialRequestNoteObject = MaterialRequestNote::create( $note );
@@ -211,7 +280,7 @@ class MaterialRequestNoteController extends MY_Controller
             if($materialRequestNoteObject->materials->isNotEmpty() && $materialRequestNoteObject->is_complete == 0){
                 $materialRequestNoteObject->update(['is_complete' => true]);
                 return redirect()
-                    ->route('material_request_note.index')
+                    ->route('material_request_note.index_sk')
                     ->with('success','SRN is successfully completed!');
             }else{
                 return redirect()

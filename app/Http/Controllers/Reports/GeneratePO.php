@@ -13,10 +13,11 @@ class GeneratePO extends Controller
 {
     public function generate(Request $request) {
         $note_id = $request->note_id;
+        //get material_request_note collection where note_id = request->note id
         $material_request_note = MaterialRequestNote::with('materials', 'site')->where('id', '=', $note_id)->first();
         
         if($material_request_note != null and $material_request_note->is_approved == "Approved"){
-            $materials = RequestMaterials::with('item')->where('note_id', '=', '1')->get();
+            $materials = RequestMaterials::with('item')->where('note_id', '=', $note_id)->get();
             $items = Items::with(['measuringUnit'])->get();
             $site_id = $material_request_note->site_id;
             $site = Site::with('stockKeeper')->where('id', '=', $site_id)->first();
@@ -41,7 +42,7 @@ class GeneratePO extends Controller
             $mpdf->WriteHTML($html);
             $mpdf->Output($fileName, 'I');
         }else{
-            return redirect()->route('material_request_note.index');
+            return redirect()->route('dashboard.index');
         }
 
         
