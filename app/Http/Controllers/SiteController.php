@@ -45,14 +45,15 @@ class SiteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
+    { 
         $site_count = Site::count();
         $provinces = Province::all();
         $districts = District::all();
         $purchasing_officers = User::where('user_role_id', '=', '2')->get();
         $project_managers = User::where('user_role_id', '=', '3')->get();
         $quantity_surveyors = User::where('user_role_id', '=', '4')->get();
-        $stock_keepers = User::where('user_role_id', '=', '5')->get();
+        $stock_keepers = User::where('user_role_id', '=', '5')->where('is_allocated', '=', 0)->get();
+        
         return view('site_create', [
             'site_code' => $site_count+1,
             'provinces' => $provinces,
@@ -86,9 +87,7 @@ class SiteController extends Controller
             
             return redirect()
                     ->back()
-                    ->with('error', 'Please check the required input fields')
-                    ->withInputs()
-                    ->withErrors(['message1'=>'this is first message']);
+                    ->with('error', 'Please check the required input fields');
         }else{
             try{
                 DB::BeginTransaction();
@@ -103,8 +102,28 @@ class SiteController extends Controller
                     'qs_id'       => $request->input('qs_id'),
                     'sk_id'       => $request->input('sk_id'),
                 );
+
+                
                 $sitObject = Site::create($site);
                 unset($site);
+
+                
+
+                $sk_id = $request->input('sk_id');
+                if($sk_id){
+                    
+                    // $userObject = User::where('id', '=', $sk_id)->first();
+                    $userObject = User::find($sk_id)->update(['is_allocated' => true]);
+                    
+                    
+
+                    // $userObject->update($user);
+
+                    
+
+                    
+                }
+
                 DB::commit();
             }catch(Exception $e){
                 DB::rollback();

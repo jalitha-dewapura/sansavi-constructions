@@ -16,11 +16,12 @@ class User extends Authenticatable implements CanResetPasswordContract
     use SoftDeletes;
     use CanResetPassword;
 
-    protected $fillable = ['id', 'name', 'username', 'user_role_id', 'email', 'phone', 'email_verified_at', 'password'];
+    protected $fillable = ['id', 'name', 'username', 'user_role_id', 'email', 'phone', 'email_verified_at', 'password', 'is_allocated'];
 
     public function userRole()
     {
         return $this->belongsTo('App\Models\UserRole', 'user_role_id', 'id');
     }
+    
    
 }

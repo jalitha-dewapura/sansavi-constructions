@@ -159,7 +159,7 @@
                 <div class="col-md-6">
                     <select class="w-100" id="sk_id" name="sk_id">
                         <option value="">---SELECT---</option> 
-                        @isset( $stock_keepers )
+                        @isset( $stock_keepers ) 
                             @foreach($stock_keepers as $stock_keeper)
                                 <option value="{{ $stock_keeper->id }}" {{ (old('sk_id') == $stock_keeper->id) ? 'selected': null }}> {{$stock_keeper->name}} </option>
                             @endforeach
