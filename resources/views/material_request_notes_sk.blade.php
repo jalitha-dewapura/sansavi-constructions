@@ -568,7 +568,7 @@
                 
                 site_name_grn_view.text(noteObject.site.name);
                 note_id_grn_view.text(noteObject.id);
-                var created_by_id = noteObject.good_receive_note.created_by_id? noteObject.approve_note.created_by_id : 0;
+                var created_by_id = noteObject.good_receive_note.created_by_id? noteObject.good_receive_note.created_by_id : 0;
                 
                 $.get( 'http://localhost:8000/user/' + created_by_id, function( data ){
                     created_by_grn_view.text(data.name? data.name : '');

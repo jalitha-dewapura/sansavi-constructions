@@ -16,7 +16,7 @@ class LoginController extends Controller
 {
     public function index(){
         if( auth()->check() ){
-            return redirect()->route('approve_note.index');////need to change
+            return redirect()->route('dashboard.index');////need to change
         }
         
         return view('login'); 

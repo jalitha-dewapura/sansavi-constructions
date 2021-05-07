@@ -91,7 +91,7 @@ class MaterialRequestNoteController extends MY_Controller
     }
     public function index_hr()
     {
-        $material_request_notes = MaterialRequestNote::where('is_complete', '=', 1)->with('materials')->get();
+        $material_request_notes = MaterialRequestNote::where('is_complete', '=', 1)->with('materials', 'approveNote', 'goodReceiveNote')->get();
         return view('material_request_notes_hr', ['material_request_notes' => $material_request_notes]);
     }
 
